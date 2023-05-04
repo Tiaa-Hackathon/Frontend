@@ -19,11 +19,31 @@
                   @submit.prevent="isRegister ? register() : login()"
                 >
                   <v-text-field
+                    v-if="isRegister"
+                    v-model="fullname"
+                    name="fullname"
+                    label="Fullname"
+                    type="text"
+                    placeholder="full name"
+                    required
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-if="isRegister"
                     v-model="username"
                     name="username"
                     label="Username"
                     type="text"
                     placeholder="username"
+                    required
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="email"
+                    name="email"
+                    label="Email"
+                    type="text"
+                    placeholder="email"
                     required
                   ></v-text-field>
 
@@ -45,6 +65,7 @@
                     placeholder="cocnfirm password"
                     required
                   ></v-text-field>
+
                   <div class="red--text">{{ errorMessage }}</div>
                   <v-btn
                     type="submit"
@@ -76,7 +97,9 @@ export default {
   name: "App",
   data() {
     return {
+      fullname: "",
       username: "",
+      email: "",
       password: "",
       confirmPassword: "",
       isRegister: false,
