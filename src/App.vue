@@ -11,17 +11,27 @@
         <span class="editor-footer-text">Add image</span>
         <span class="editor-footer-text">Add link</span>
       </div>
+       <div>
+      <parameter-input v-model="parameters" />
+      <p>Input value: {{ parameters }}</p>
+     </div>
     </div>
     <div class="content-display" v-html="content"></div>
   </div>
 </template>
 
 <script>
+
+import ParameterInput from './components/ParameterInput.vue';
 export default {
+  components:{
+    ParameterInput,
+  },
   data() {
     return {
       content: "",
       textInput: "",
+      parameters: "",
     };
   },
   methods: {
@@ -102,7 +112,7 @@ button:hover {
 
 .editor {
   min-height: 400px;
-  padding: 10px;
+  padding: 1px;
   font-size: 18px;
   font-weight: 500;
   color: #2e3d49;
