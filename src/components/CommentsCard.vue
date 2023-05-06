@@ -47,7 +47,7 @@
 
 .comment-body .v-card {
   background-color: white;
-  width: 100%;
+  width: 95%;
   padding: 10px;
 }
 
@@ -69,17 +69,11 @@
   color: #666;
   margin-top: 5px;
   margin-bottom: 10px;
-  margin-right: 10px;
 }
 
 .comment-body .v-card-actions {
   padding-top: 0;
   padding-bottom: 0;
-}
-
-.comment-body .v-btn {
-  font-size: 12px;
-  padding: 5px 10px;
 }
 
 </style>
