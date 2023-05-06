@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import Navbar from "../components/navbar.vue";
+
 
 Vue.use(VueRouter);
 
@@ -10,11 +10,6 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView,
-  },
-  {
-    path: "/navbar",
-    name: "navbar",
-    component: Navbar
   },
   {
     path: "/post/create",
