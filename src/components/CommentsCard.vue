@@ -14,10 +14,10 @@ export default {
   data() {
     return {
       user: {
-        username: "username",
+        username: "author name",
       },
-      created: "created",
-      content: "content",
+      created: "2020-01-01",
+      content: "comment",
     };
   },
 };

@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <NavBar />
     <v-main>
       <router-view />
+      <NavBar />
     </v-main>
   </v-app>
 </template>
