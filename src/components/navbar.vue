@@ -1,7 +1,7 @@
 <template>
-    <v-app>
-        <v-app-bar app color="blue darken-2" dark max-height="140" rounded scroll-behavior="collapse elevate"
-            scroll-threshold="419">
+    <v-app class="navbar">
+        <v-app-bar app color="navcol" dark max-height="140" rounded scroll-behavior="collapse elevate"
+            scroll-threshold="419" :elevation="13">
             <v-toolbar-title> Quora Clone </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-menu v-if="!$vuetify.breakpoint.mdAndUp" offset-y>

@@ -11,6 +11,7 @@ const vuetify = new Vuetify({
         secondary: "#b0bec5",
         accent: "#8c9eff",
         error: "#b71c1c",
+        navcol: "#6E0095"
       },
     },
   },
