@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Create or edit post</h1>
+    <h1>Create Post</h1>
     <Editor />
   </div>
 </template>

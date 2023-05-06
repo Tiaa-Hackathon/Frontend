@@ -1,7 +1,5 @@
 <template>
   <div class="">
-    <h1>Create Post</h1>
-    <input id="CreatePost" class="postTitle" placeholder="Enter Post Title">
     <quill-editor
       class="editor"
       v-model="content"
@@ -226,17 +224,6 @@ export default {
 */
 .editor{
   padding-top: 15px;
-}
-
-h1{
-  text-align: center;
-}
-
-.postTitle {
-  width: 100vw;
-  height: 20px;
-  padding: 15px;
-  border-radius: 10px;
 }
 
 </style>
