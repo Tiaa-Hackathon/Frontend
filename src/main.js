@@ -11,6 +11,9 @@ import vuetify from "./plugins/vuetify";
 import GlobalMixins from "@/utils/GlobalMixins.vue";
 import AppConstants from "@/utils/AppConstants";
 
+import '@mdi/font/css/materialdesignicons.css'
+
+
 Vue.mixin(GlobalMixins);
 Vue.prototype.$const = AppConstants;
 Vue.use(vuetify);
