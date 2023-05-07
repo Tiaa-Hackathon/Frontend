@@ -11,7 +11,7 @@
         <div>{{ post.author.name }} | {{ post.author.info }}</div>
         <div>{{ post.date }}</div>
       </div>
-      <v-btn icon class="edit-icon" v-on:click="editPost">
+      <v-btn icon class="edit-icon" v-on:click="showEditPost = true">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-btn icon class="message-icon" @click="showMessage = true">
@@ -90,6 +90,50 @@
         <h4>Message</h4>
       </div>
     </v-dialog>
+
+    <v-dialog
+      v-model="showEditPost"
+      max-width="1280"
+      style="
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <div class="edit-post-info">
+        <h2 class="heading">Edit Post</h2>
+        <div class="tags-container">
+          <h3 class="tags-heading">Choose Relevant Tags:</h3>
+          <Tags class="tags" />
+        </div>
+        <v-text-field
+          style="width: 95%"
+          label="Enter Post Title"
+          v-model="post.title"
+          outlined
+          dense
+        ></v-text-field>
+      </div>
+      <div style="background-color: white" class="createpost">
+        <Editor class="editor" :bodyContent="post.content" />
+
+        <div class="interact">
+          <router-link
+            target="_blank"
+            :to="{
+              path: '/post/edit',
+              query: {
+                title: post.title,
+                content: post.content,
+              },
+            }"
+          >
+            <v-btn color="#E8D3FF">Open In External Editor</v-btn>
+          </router-link>
+          <v-btn color="#E8D3FF" style="margin-left: 10px">Post</v-btn>
+        </div>
+      </div>
+    </v-dialog>
   </v-card>
 
   <!-- </v-col>
@@ -99,6 +143,8 @@
 
 <script>
 import MarkdownIt from "markdown-it";
+import Editor from "@/components/Editor.vue";
+import Tags from "@/components/Tags.vue";
 
 export default {
   data() {
@@ -106,7 +152,12 @@ export default {
       markedContent: "",
       showMessage: false,
       comments: [],
+      showEditPost: false,
     };
+  },
+  components: {
+    Editor,
+    Tags,
   },
   props: {
     post: {
@@ -167,5 +218,54 @@ export default {
 .author-info {
   margin-left: 20px;
   color: rgb(0, 0, 0);
+}
+.edit-post-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.heading {
+  margin: 20px;
+  font-size: 2rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+createpost {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor {
+  width: 100%;
+  height: 100%;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.interact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.close {
+  margin-bottom: 5px;
+  width: 5%;
+  text-align: center;
+  align-content: right;
+  margin-left: 95%;
 }
 </style>
