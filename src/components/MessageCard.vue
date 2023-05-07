@@ -22,7 +22,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <div v-for="message in messages" :key="message.id" class="message">
+      <div v-for="message in chatRooms" :key="message.id" class="message">
         <v-list-item>
           <v-list-item>
             <v-list-item-avatar color="grey darken-3">
@@ -47,15 +47,19 @@
             <v-dialog v-model="dialog" width="80%" top :offset="60">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  @click="Passnametochatwindow(message.author)"
+                  @click="initiateChat(message.email)"
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Show More
+                  Open Chat
                 </v-btn>
               </template>
               <v-card>
-                <ChatBoxVue />
+                <ChatBoxVue
+                  @selfmsg="pushMessageFromMe"
+                  :to="chattingTo"
+                  :messages="roomMessages"
+                ></ChatBoxVue>
               </v-card>
             </v-dialog>
           </v-row>
@@ -66,28 +70,36 @@
 </template>
 
 <script>
+import { socket } from "../utils/socket";
 import ChatBoxVue from "../components/ChatBox.vue";
+import { mutationNames } from "@/store/mutationTypes";
 export default {
   data() {
     return {
-      messages: [
+      roomMessages: [],
+      chattingTo: "",
+      chatRooms: [
         {
-          author: "Author",
+          author: "A",
+          email: "ojasinamdar101@gmail.com",
+          content: "message content",
+          timestamp: "25-05-2020",
+        },
+        {
+          author: "B",
+          email: "ojasinamdar100@gmail.com",
           content: "message content",
           timestamp: "25-05-2020",
         },
         {
           author: "Author",
+          email: "abcaaaa@yahoo.com",
           content: "message content",
           timestamp: "25-05-2020",
         },
         {
           author: "Author",
-          content: "message content",
-          timestamp: "25-05-2020",
-        },
-        {
-          author: "Author",
+          email: "abcaa@yahoo.com",
           content: "message content",
           timestamp: "25-05-2020",
         },
@@ -100,9 +112,54 @@ export default {
   },
 
   methods: {
-    Passnametochatwindow(authorName) {
-      this.$emit("show-more", authorName);
+    initiateChat(receiverEmail) {
+      this.chattingTo = receiverEmail;
     },
+    pushMessageFromMe(content) {
+      this.roomMessages.push({
+        content,
+        from: this.$store.state.auth.user.email,
+      });
+    },
+  },
+  async mounted() {
+    // Refetching email here since we need it for socketing
+    // Env this
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("token")}`
+    );
+    const url = `${process.env.VUE_APP_BACKEND_URL}/auth/jwt`;
+
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+      headers: myHeaders,
+    };
+
+    const response = await fetch(url, requestOptions);
+    const res = await response.json();
+
+    this.$store.commit(mutationNames.setEmail, res.email);
+
+    socket.connect();
+    socket.once("connect", () => {
+      // Replace myemail with store.user.auth.email or it's equivalent
+      socket.emit("mapUserEmailToSocketId", {
+        email: this.$store.state.auth.user.email,
+        id: socket.id,
+      });
+
+      // Bandaid fix, preferably overhaul this by having a user messages global state and receiving this event in the base socket.js file itself
+      socket.on("receiveDM", ({ content, from }) => {
+        console.log(content, from);
+
+        this.roomMessages.push({ content, from });
+      });
+
+      // manage connected state here if any
+    });
   },
 };
 </script>
