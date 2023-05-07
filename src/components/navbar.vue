@@ -24,6 +24,12 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <v-btn
+      v-if="$vuetify.breakpoint.mdAndUp"
+      text
+      @click="navigate('/message')"
+      >Messages</v-btn
+    >
     <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/')"
       >Home</v-btn>
     <v-btn v-if="isLoggedIn" text @click="navigate('message')">Message</v-btn>
@@ -49,6 +55,7 @@
     >
   </v-app-bar>
 </template>
+
 
 <script>
 export default {

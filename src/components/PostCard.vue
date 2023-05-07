@@ -1,4 +1,4 @@
-<template>
+<template><div>
   <!-- <v-container align-self="center" justify="center">
     <v-row align-self="auto" justify="center">
       <v-col cols="12" md="6"> -->
@@ -137,10 +137,14 @@
       </div>
     </v-dialog>
   </v-card>
+  
+
 
   <!-- </v-col>
     </v-row>
   </v-container> -->
+
+</div>
 </template>
 
 <script>
@@ -152,6 +156,7 @@ import CommentsCardVue from "@/components/CommentsCard.vue";
 export default {
   data() {
     return {
+      showMessage: false,
       showComments: [],
       comments: [],
       showEditPost: false,
