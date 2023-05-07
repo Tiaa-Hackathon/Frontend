@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
   max-width: 80vw;
   margin: 0 auto;
