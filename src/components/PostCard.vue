@@ -9,9 +9,16 @@
       </v-avatar>
       <div class="author-info">
         <div>{{ post.author.name }} | {{ post.author.info }}</div>
-        <div>{{ post.date }}</div>
+        <div>
+          {{ new Date(this.post.createdAt).toLocaleDateString() }}
+        </div>
       </div>
-      <v-btn icon class="edit-icon" v-on:click="showEditPost = true">
+      <v-btn
+        icon
+        class="edit-icon"
+        v-on:click="showEditPost = true"
+        v-if="isAuthor"
+      >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <!-- <v-btn icon class="message-icon" @click="showMessage = true">
@@ -26,15 +33,16 @@
       <v-row no-gutters align-self="center">
         <v-col>
           <div>
-            <v-btn icon v-on:click="upvote">
+            <v-btn icon v-on:click="upvote" :color="upvoted && 'primary'">
               <v-icon>mdi-thumb-up</v-icon>
             </v-btn>
-            <span>{{ post.upvotes }}</span>
-            <v-btn icon v-on:click="downvote">
+            <span>{{ post.upvotes || 0 }}</span>
+            <v-btn icon v-on:click="downvote" :color="downvoted && 'primary'">
               <v-icon>mdi-thumb-down</v-icon>
             </v-btn>
-            <span>{{ post.downvotes }}</span>
+            <span>{{ post.downvotes || 0 }}</span>
             <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
+            <span>{{ 0 }}</span>
           </div>
         </v-col>
       </v-row>
@@ -117,7 +125,7 @@
         ></v-text-field>
       </div>
       <div style="background-color: white" class="createpost">
-        <Editor class="editor" :bodyContent="post.content" />
+        <Editor class="editor" :bodyContent="post.body" />
 
         <div class="interact">
           <router-link
@@ -126,13 +134,18 @@
               path: '/post/edit',
               query: {
                 title: post.title,
-                content: post.content,
+                content: post.body,
               },
             }"
           >
             <v-btn color="#E8D3FF">Open In External Editor</v-btn>
           </router-link>
-          <v-btn color="#E8D3FF" style="margin-left: 10px">Post</v-btn>
+          <v-btn
+            color="#E8D3FF"
+            style="margin-left: 10px"
+            @click="handleEditPost"
+            >Post</v-btn
+          >
         </div>
       </div>
     </v-dialog>
@@ -148,10 +161,12 @@ import MarkdownIt from "markdown-it";
 import Editor from "@/components/Editor.vue";
 import Tags from "@/components/Tags.vue";
 import CommentsCardVue from "@/components/CommentsCard.vue";
+import markdownIt from "markdown-it";
 
 export default {
   data() {
     return {
+      isAuthor: false,
       showComments: [],
       comments: [],
       showEditPost: false,
@@ -161,9 +176,11 @@ export default {
         timestamp: "",
       },
       dropdownOpen: false,
-      markedContent: "## Hello world",
+      markedContent: markdownIt().render(this.post.body) || "## hello world",
       dialog: false,
       components: CommentsCardVue,
+      upvoted: false,
+      downvoted: false,
     };
   },
   components: {
@@ -177,8 +194,7 @@ export default {
       default: () => {
         return {
           title: "What are the best ways to stay motivated and productive?",
-          content:
-            "We all struggle with motivation and productivity from time to time. Here are some tips and tricks that have worked for me:\n\n## 1. Set goals and break them down into smaller tasks\n\nHaving a clear goal in mind can help you stay motivated, but it can also feel overwhelming. That's why it's important to break your goal down into smaller, more manageable tasks. That way, you can make progress and feel accomplished without getting overwhelmed.\n\n## 2. Create a routine\n\nHaving a routine can help you establish good habits and make productivity feel more automatic. Try to create a daily routine that includes time for work, exercise, and relaxation.\n\n## 3. Eliminate distractions\n\nDistractions can kill your motivation and make it hard to focus. Try to eliminate distractions by turning off your phone or computer notifications, closing unnecessary tabs, and finding a quiet space to work.\n\n## 4. Take breaks\n\nIt's important to take breaks throughout the day to recharge your batteries and avoid burnout. Try to take short breaks every hour or so, and longer breaks for meals and exercise.\n\n## 5. Celebrate your accomplishments\n\nDon't forget to celebrate your accomplishments along the way! Whether it's completing a task, hitting a milestone, or just making progress, take the time to acknowledge your hard work and give yourself a pat on the back.\n\nWhat are some of your favorite tips for staying motivated and productive? Share them in the comments below!",
+          body: "We all struggle with motivation and productivity from time to time. Here are some tips and tricks that have worked for me:\n\n## 1. Set goals and break them down into smaller tasks\n\nHaving a clear goal in mind can help you stay motivated, but it can also feel overwhelming. That's why it's important to break your goal down into smaller, more manageable tasks. That way, you can make progress and feel accomplished without getting overwhelmed.\n\n## 2. Create a routine\n\nHaving a routine can help you establish good habits and make productivity feel more automatic. Try to create a daily routine that includes time for work, exercise, and relaxation.\n\n## 3. Eliminate distractions\n\nDistractions can kill your motivation and make it hard to focus. Try to eliminate distractions by turning off your phone or computer notifications, closing unnecessary tabs, and finding a quiet space to work.\n\n## 4. Take breaks\n\nIt's important to take breaks throughout the day to recharge your batteries and avoid burnout. Try to take short breaks every hour or so, and longer breaks for meals and exercise.\n\n## 5. Celebrate your accomplishments\n\nDon't forget to celebrate your accomplishments along the way! Whether it's completing a task, hitting a milestone, or just making progress, take the time to acknowledge your hard work and give yourself a pat on the back.\n\nWhat are some of your favorite tips for staying motivated and productive? Share them in the comments below!",
           upvotes: 0,
           downvotes: 0,
           author: { name: "John Doe", info: "University of Waterloo" },
@@ -188,11 +204,68 @@ export default {
     },
   },
   methods: {
-    upvote() {
-      this.post.upvotes += 1;
+    async upvote() {
+      const url = process.env.VUE_APP_BACKEND_URL + "/post/activity";
+
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+
+      const body = {
+        activity_type: "upvote",
+        post_id: this.post._id,
+      };
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+        redirect: "follow",
+      });
+      if (response.ok) {
+        const {
+          data: { message },
+        } = await response.json();
+        if (message.includes("upvoted")) {
+          this.upvoted = true;
+          this.downvoted = false;
+          this.post.upvotes += 1;
+        } else {
+          this.upvoted = false;
+        }
+      } else {
+        return alert(response.message);
+      }
     },
-    downvote() {
-      this.post.downvotes += 1;
+    async downvote() {
+      const url = process.env.VUE_APP_BACKEND_URL + "/post/activity";
+
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+
+      const body = {
+        activity_type: "downvote",
+        post_id: this.post._id,
+      };
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+        redirect: "follow",
+      });
+      if (response.ok) {
+        this.downvoted = !this.post.is_downvote;
+      } else {
+        return alert(response.message);
+      }
     },
     viewPost() {
       this.dialog = true;
@@ -228,11 +301,53 @@ export default {
       comment.replied = true;
       comment.showReplyForm = false;
     },
+    async alterPost() {
+      const url = process.env.VUE_APP_BACKEND_URL + "/post/" + this.post._id;
+      // const url = `${process.env.VUE_APP_BACKEND_URL}/post/${this.post._id}}`;
+      console.log("url", url);
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
+
+      const body = {};
+
+      if (this.post.title) {
+        body.title = this.post.title;
+      }
+
+      if (this.post.body) {
+        body.body = this.post.body;
+      }
+
+      const response = await fetch(url, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(body),
+      });
+
+      return response.json();
+    },
+    async handleEditPost() {
+      const response = await this.alterPost();
+      if (response.ok) {
+        this.showEditPost = false;
+        alert("Post edited successfully");
+      } else {
+        alert(response.message);
+      }
+    },
   },
   created() {
     const md = new MarkdownIt();
     const data = md.render(this.post.content);
     this.markedContent = data;
+    this.post["date"] = new Date(this.post.createdAt).toLocaleDateString();
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      this.isAuthor = user._id === this.post.author._id;
+    }
   },
 };
 </script>

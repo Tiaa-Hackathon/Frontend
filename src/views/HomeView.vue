@@ -135,7 +135,9 @@ export default {
     <v-row>
       <v-col cols="8">
         <CreatePost @click.native="showModal = true" />
-        <PostCardVue />
+        <div v-for="post in postList" :key="post._id">
+          <PostCardVue :post="post" />
+        </div>
       </v-col>
       <v-col cols="3">
         <TrendingTopics />
@@ -200,7 +202,25 @@ export default {
   data() {
     return {
       showModal: false,
+      postList: [],
     };
+  },
+  methods: {
+    async getAllPosts() {
+      const url = `${process.env.VUE_APP_BACKEND_URL}/post/all`;
+
+      const response = await fetch(url);
+      return response;
+    },
+  },
+  async created() {
+    const response = await this.getAllPosts();
+
+    const {
+      data: { posts },
+    } = await response.json();
+
+    this.postList = posts;
   },
 };
 </script>
