@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 60%">
     <v-list-item>
       <template>
         <v-list-item-content>

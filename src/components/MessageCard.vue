@@ -44,7 +44,7 @@
           </v-list-item>
 
           <v-row justify="center">
-            <v-dialog v-model="dialog" width="600px">
+            <v-dialog v-model="dialog" width="80%" top :offset="60">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   @click="Passnametochatwindow(message.author)"
@@ -55,7 +55,7 @@
                 </v-btn>
               </template>
               <v-card>
-                <ChatBoxVue></ChatBoxVue>
+                <ChatBoxVue />
               </v-card>
             </v-dialog>
           </v-row>

@@ -37,12 +37,7 @@ export default {
         </v-container>
       </v-col>
       <v-col cols="6">
-        <PostCardVue />
-        <PostCardVue />
-        <PostCardVue />
-        <PostCardVue />
-        <PostCardVue />
-        <PostCardVue />
+        <PostCardVue v-for="post in postList" :key="post._id" :post="post" />
       </v-col>
       <v-col cols="3">
         <v-card>
@@ -85,7 +80,25 @@ export default {
       categories: ["Category 1", "Category 2", "Category 3"],
       selectedCategories: [],
       currentDate: new Date().toLocaleDateString(),
+
+      postList: [],
     };
+  },
+  methods: {
+    async getAllPosts() {
+      const url = `${process.env.VUE_APP_BACKEND_URL}/post/all`;
+
+      const response = await fetch(url);
+
+      return response;
+    },
+  },
+  async created() {
+    const response = await this.getAllPosts();
+    const {
+      data: { posts },
+    } = await response.json();
+    this.postList = posts;
   },
 };
 </script>
