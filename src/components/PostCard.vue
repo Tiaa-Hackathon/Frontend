@@ -1,4 +1,4 @@
-<template>
+<template><div>
   <!-- <v-container align-self="center" justify="center">
     <v-row align-self="auto" justify="center">
       <v-col cols="12" md="6"> -->
@@ -14,9 +14,7 @@
       <v-btn icon class="edit-icon" v-on:click="editPost">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn icon class="message-icon" @click="showMessage = true">
-        <v-icon>mdi-comment</v-icon>
-      </v-btn>
+      
     </v-card-subtitle>
     <v-card-title>
       <h3>{{ post.title }}</h3>
@@ -77,20 +75,15 @@
         </v-card>
       </div>
     </v-expand-transition>
-    <v-dialog v-model="showMessage" max-width="1280" style="
-        border-radius: 10px;
-        background: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      ">
-      <div style="background-color: white; width: 100%; height: 80vh">
-        <h4>Message</h4>
-      </div>
-    </v-dialog>
   </v-card>
+  
+
 
   <!-- </v-col>
     </v-row>
   </v-container> -->
+
+</div>
 </template>
 
 <script>
@@ -100,6 +93,7 @@ import CommentsCardVue from "@/components/CommentsCard.vue";
 export default {
   data() {
     return {
+      showMessage: false,
       showComments: [],
       comments: [],
       newComment: {
