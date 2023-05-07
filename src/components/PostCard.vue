@@ -25,19 +25,21 @@
     <v-card-actions>
       <v-row no-gutters align-self="center">
         <v-col>
-          <v-btn icon v-on:click="upvote">
-            <v-icon>mdi-thumb-up</v-icon>
-          </v-btn>
-          <span>{{ post.upvotes }}</span>
-          <v-btn icon v-on:click="downvote">
-            <v-icon>mdi-thumb-down</v-icon>
-          </v-btn>
-          <span>{{ post.downvotes }}</span>
-          <v-icon v-on:click="toggleComments(index)">mdi-comment</v-icon>
+          <div>
+            <v-btn icon v-on:click="upvote">
+              <v-icon>mdi-thumb-up</v-icon>
+            </v-btn>
+            <span>{{ post.upvotes }}</span>
+            <v-btn icon v-on:click="downvote">
+              <v-icon>mdi-thumb-down</v-icon>
+            </v-btn>
+            <span>{{ post.downvotes }}</span>
+            <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
+          </div>
         </v-col>
       </v-row>
     </v-card-actions>
-    <!-- <v-expand-transition>
+    <v-expand-transition>
       <div v-show="showComments[index]">
         <v-divider></v-divider>
         <v-card variant="tonal">
@@ -76,7 +78,7 @@
           </div>
         </v-card>
       </div>
-    </v-expand-transition> -->
+    </v-expand-transition>
     <v-dialog
       v-model="showMessage"
       max-width="1280"
@@ -145,14 +147,23 @@
 import MarkdownIt from "markdown-it";
 import Editor from "@/components/Editor.vue";
 import Tags from "@/components/Tags.vue";
+import CommentsCardVue from "@/components/CommentsCard.vue";
 
 export default {
   data() {
     return {
-      markedContent: "",
-      showMessage: false,
+      showComments: [],
       comments: [],
       showEditPost: false,
+      newComment: {
+        author: "John Doe", // Replace with the desired author name
+        content: "",
+        timestamp: "",
+      },
+      dropdownOpen: false,
+      markedContent: "## Hello world",
+      dialog: false,
+      components: CommentsCardVue,
     };
   },
   components: {
@@ -183,8 +194,40 @@ export default {
     downvote() {
       this.post.downvotes += 1;
     },
-    viewPost() {},
+    viewPost() {
+      this.dialog = true;
+    },
     editPost() {},
+    displaycomments() {
+      return CommentsCardVue;
+    },
+    addComment() {
+      this.comments.push({
+        author: "User",
+        content: this.newComment.content,
+        timestamp: new Date().toLocaleString(),
+        replied: false,
+        showReplyForm: false,
+      });
+      this.newComment.content = "";
+    },
+    showReplyForm(index) {
+      this.comments[index].showReplyForm = !this.comments[index].showReplyForm;
+    },
+    toggleComments(index) {
+      this.$set(this.showComments, index, !this.showComments[index]);
+    },
+    addReply(index) {
+      const comment = this.comments[index];
+      if (!comment.replyContent) {
+        alert("Please enter a reply.");
+        return;
+      }
+      comment.replyAuthor = "John Doe"; // Replace with the desired author name
+      comment.replyTimestamp = new Date().toLocaleString();
+      comment.replied = true;
+      comment.showReplyForm = false;
+    },
   },
   created() {
     const md = new MarkdownIt();
@@ -267,5 +310,50 @@ createpost {
   text-align: center;
   align-content: right;
   margin-left: 95%;
+}
+
+textarea {
+  resize: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 0.5em;
+}
+
+.comment-section {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.comment {
+  padding: 1em;
+  border-left: 3px solid #0079d3;
+  background-color: #f6f7f8;
+  border-radius: 5px;
+  margin-bottom: 1em;
+}
+
+.comment p {
+  margin: 0;
+}
+
+.comment strong {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.comment > p:first-child {
+  color: #3c3c3c;
+  margin-bottom: 0.5em;
+}
+
+.comment .comment-timestamp {
+  font-size: 12px;
+  color: #999;
+  margin-left: 5px;
 }
 </style>
