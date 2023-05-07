@@ -75,6 +75,63 @@
         </v-card>
       </div>
     </v-expand-transition>
+    <!-- <v-dialog
+      v-model="showMessage"
+      max-width="1280"
+      style="
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <div style="background-color: white; width: 100%; height: 80vh">
+        <h4>Message</h4>
+      </div>
+    </v-dialog> -->
+
+    <v-dialog
+      v-model="showEditPost"
+      max-width="1280"
+      style="
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <div class="edit-post-info">
+        <h2 class="heading">Edit Post</h2>
+        <div class="tags-container">
+          <h3 class="tags-heading">Choose Relevant Tags:</h3>
+          <Tags class="tags" />
+        </div>
+        <v-text-field
+          style="width: 95%"
+          label="Enter Post Title"
+          v-model="post.title"
+          outlined
+          dense
+        ></v-text-field>
+      </div>
+      <div style="background-color: white" class="createpost">
+        <Editor class="editor" :bodyContent="post.content" />
+
+        <div class="interact">
+          <router-link
+            target="_blank"
+            :to="{
+              path: '/post/edit',
+              query: {
+                title: post.title,
+                content: post.content,
+              },
+            }"
+          >
+            <v-btn color="#E8D3FF">Open In External Editor</v-btn>
+          </router-link>
+          <v-btn color="#E8D3FF" style="margin-left: 10px">Post</v-btn>
+        </div>
+      </div>
+    </v-dialog>
   </v-card>
   
 
