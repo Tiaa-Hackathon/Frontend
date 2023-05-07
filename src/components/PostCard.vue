@@ -1,19 +1,27 @@
 <template>
-  <v-card class="mb-5">
-    <v-card-subtitle>
-      <v-avatar style="margin-right: 20px">
-        <img src="https://randomuser.me/api/portraits/men/75.jpg" />
+  <!-- <v-container align-self="center" justify="center">
+    <v-row align-self="auto" justify="center">
+      <v-col cols="12" md="6"> -->
+  <v-card class="mb-5" style="margin: 20px">
+    <v-card-subtitle class="post-info">
+      <v-avatar style="margin: 10px; width: 80px; height: 80px">
+        <img src="https://randomuser.me/api/portraits/men/71.jpg" />
       </v-avatar>
-      <span>{{ post.author }}</span>
-      <span class="mx-2">|</span>
-      <span>{{ post.date }}</span>
+      <div class="author-info">
+        <div>{{ post.author.name }} | {{ post.author.info }}</div>
+        <div>{{ post.date }}</div>
+      </div>
       <v-btn icon class="edit-icon" v-on:click="editPost">
         <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <v-btn icon class="message-icon" @click="showMessage = true">
+        <v-icon>mdi-comment</v-icon>
       </v-btn>
     </v-card-subtitle>
     <v-card-title>
       <h3>{{ post.title }}</h3>
     </v-card-title>
+    <div style="margin: 1rem" v-html="markedContent"></div>
     <v-card-actions>
       <v-row no-gutters align-self="center">
         <v-col>
@@ -25,34 +33,23 @@
             <v-icon>mdi-thumb-down</v-icon>
           </v-btn>
           <span>{{ post.downvotes }}</span>
-          <v-icon v-on:click="toggleComments(index)" >mdi-comment</v-icon>
-
+          <v-icon v-on:click="toggleComments(index)">mdi-comment</v-icon>
         </v-col>
-        <v-dialog v-model="dialog" width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn text v-on:click="viewPost(post)" v-bind="attrs" v-on="on">
-              View post
-            </v-btn>
-          </template>
-          <v-card style="padding: 2rem">
-            <v-card-text>
-              <div v-html="markedContent"></div>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
       </v-row>
     </v-card-actions>
-    <v-expand-transition>
+    <!-- <v-expand-transition>
       <div v-show="showComments[index]">
         <v-divider></v-divider>
         <v-card variant="tonal">
           <div class="comment-section">
             <h3>Comments</h3>
-            <div v-for="(comment, index) in comments" :key="index" class="comment">
+            <div
+              v-for="(comment, index) in comments"
+              :key="index"
+              class="comment"
+            >
               <p>
-                <strong>{{ comment.author }}</strong> ({{
-                  comment.timestamp
-                }})
+                <strong>{{ comment.author }}</strong> ({{ comment.timestamp }})
               </p>
               <p>{{ comment.content }}</p>
               <div v-if="!comment.replied">
@@ -79,28 +76,36 @@
           </div>
         </v-card>
       </div>
-    </v-expand-transition>
+    </v-expand-transition> -->
+    <v-dialog
+      v-model="showMessage"
+      max-width="1280"
+      style="
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <div style="background-color: white; width: 100%; height: 80vh">
+        <h4>Message</h4>
+      </div>
+    </v-dialog>
   </v-card>
+
+  <!-- </v-col>
+    </v-row>
+  </v-container> -->
 </template>
 
 <script>
 import MarkdownIt from "markdown-it";
-import CommentsCardVue from "@/components/CommentsCard.vue";
 
 export default {
   data() {
     return {
-      showComments: [],
+      markedContent: "",
+      showMessage: false,
       comments: [],
-      newComment: {
-        author: "John Doe", // Replace with the desired author name
-        content: "",
-        timestamp: "",
-      },
-      dropdownOpen: false,
-      markedContent: "## Hello world",
-      dialog: false,
-      components: CommentsCardVue,
     };
   },
   props: {
@@ -109,13 +114,13 @@ export default {
       required: true,
       default: () => {
         return {
-          title: "First post",
-          content: "# Hello world\n\n## Hello world",
+          title: "What are the best ways to stay motivated and productive?",
+          content:
+            "We all struggle with motivation and productivity from time to time. Here are some tips and tricks that have worked for me:\n\n## 1. Set goals and break them down into smaller tasks\n\nHaving a clear goal in mind can help you stay motivated, but it can also feel overwhelming. That's why it's important to break your goal down into smaller, more manageable tasks. That way, you can make progress and feel accomplished without getting overwhelmed.\n\n## 2. Create a routine\n\nHaving a routine can help you establish good habits and make productivity feel more automatic. Try to create a daily routine that includes time for work, exercise, and relaxation.\n\n## 3. Eliminate distractions\n\nDistractions can kill your motivation and make it hard to focus. Try to eliminate distractions by turning off your phone or computer notifications, closing unnecessary tabs, and finding a quiet space to work.\n\n## 4. Take breaks\n\nIt's important to take breaks throughout the day to recharge your batteries and avoid burnout. Try to take short breaks every hour or so, and longer breaks for meals and exercise.\n\n## 5. Celebrate your accomplishments\n\nDon't forget to celebrate your accomplishments along the way! Whether it's completing a task, hitting a milestone, or just making progress, take the time to acknowledge your hard work and give yourself a pat on the back.\n\nWhat are some of your favorite tips for staying motivated and productive? Share them in the comments below!",
           upvotes: 0,
           downvotes: 0,
-          author: "John Doe",
+          author: { name: "John Doe", info: "University of Waterloo" },
           date: "May 6, 2023",
-          comments: [],
         };
       },
     },
@@ -127,40 +132,8 @@ export default {
     downvote() {
       this.post.downvotes += 1;
     },
-    viewPost() {
-      this.dialog = true;
-    },
-    displaycomments() {
-      return CommentsCardVue;
-    },
-    toggleComments(index) {
-      this.$set(this.showComments, index, !this.showComments[index]);
-    },
-    editPost() { },
-     addComment() {
-      if (!this.newComment.content) {
-        alert("Please enter a comment.");
-        return;
-      }
-      this.newComment.timestamp = new Date().toLocaleString();
-      this.comments.push({ ...this.newComment });
-      this.newComment.content = "";
-      this.newComment.timestamp = "";
-    },
-    showReplyForm(index) {
-      this.$set(this.comments[index], "showReplyForm", !this.comments[index].showReplyForm);
-    },
-    addReply(index) {
-      const comment = this.comments[index];
-      if (!comment.replyContent) {
-        alert("Please enter a reply.");
-        return;
-      }
-      comment.replyAuthor = "John Doe"; // Replace with the desired author name
-      comment.replyTimestamp = new Date().toLocaleString();
-      comment.replied = true;
-      comment.showReplyForm = false;
-    },
+    viewPost() {},
+    editPost() {},
   },
   created() {
     const md = new MarkdownIt();
@@ -173,116 +146,26 @@ export default {
 <style scoped>
 .edit-icon {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 85px;
+  right: 15px;
+  cursor: pointer;
+}
+.message-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   cursor: pointer;
 }
 
-.comment-section {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-h3 {
-  margin-bottom: 1em;
-  color: #333;
-}
-
-.comment {
-  padding: 1em;
-  border-left: 3px solid #0079d3;
-  background-color: #f6f7f8;
-  border-radius: 5px;
-  margin-bottom: 1em;
-}
-
-.comment p {
-  margin: 0;
-}
-
-.comment strong {
-  font-weight: 500;
-  font-size: 14px;
-  color: #333;
-}
-
-.comment>p:first-child {
-  color: #3c3c3c;
-  margin-bottom: 0.5em;
-}
-
-.comment .comment-timestamp {
-  font-size: 12px;
-  color: #999;
-  margin-left: 5px;
-}
-
-.new-comment {
-  margin-top: 1em;
-}
-
-.new-comment h4 {
-  margin-bottom: 0.5em;
-  color: #333;
-}
-
-.new-comment textarea {
-  width: 100%;
-  height: 100px;
-  padding: 10px;
-  font-size: 14px;
-  margin-bottom: 0.5em;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-}
-
-v-btn {
-  font-size: 14px;
-  color: #065fd4;
-  text-transform: none;
-}
-
-textarea {
-  resize: none;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 0.5em;
-}
-
-.comment .reply-section {
-  padding-left: 20px;
-  margin-top: 10px;
-  border-left: 1px solid #e0e0e0;
-}
-
-.v-card {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-}
-
-.v-card-subtitle {
-  font-size: 14px;
-  color: #666;
-}
-
-.v-card-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-
-.v-card-actions {
+.post-info {
   display: flex;
-  justify-content: space-between;
+  font-size: 1.2rem;
+  align-items: center;
+  background-color: #e8d3ff;
 }
 
-.v-dialog {
-  max-width: 600px;
+.author-info {
+  margin-left: 20px;
+  color: rgb(0, 0, 0);
 }
-
-
 </style>
