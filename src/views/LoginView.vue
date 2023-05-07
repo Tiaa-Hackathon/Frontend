@@ -1,6 +1,5 @@
 <template>
-  
-  <v-row style="margin-top: 15vh;">
+  <v-row style="margin-top: 15vh">
     <v-col cols="4" offset="4">
       <p class="welcome-text text-center">Welcome Back</p>
     </v-col>
@@ -10,22 +9,37 @@
           <v-col cols="10" offset="1">
             <v-row style="height: 10vh">
               <v-col cols="12">
-                <v-text-field solo label="Email" hint="Enter your Email Address" v-model="email"></v-text-field>
+                <v-text-field
+                  solo
+                  label="Email"
+                  hint="Enter your Email Address"
+                  v-model="email"
+                ></v-text-field>
               </v-col>
             </v-row>
 
             <v-row style="height: 10vh; margin-top: 3vh">
               <v-col cols="12">
-                <v-text-field solo label="Password" hint="Enter your Password" type="password"
-                  v-model="password"></v-text-field>
+                <v-text-field
+                  solo
+                  label="Password"
+                  hint="Enter your Password"
+                  type="password"
+                  v-model="password"
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-col>
         </v-row>
         <v-row style="margin-top: 3vh">
           <v-col cols="4" offset="1">
-            <v-btn block elevation="2" type="submit" style="background-color: rgba(110, 0, 149, 1); color: white"
-              @click="handleLogin">
+            <v-btn
+              block
+              elevation="2"
+              type="submit"
+              style="background-color: rgba(110, 0, 149, 1); color: white"
+              @click="handleLogin"
+            >
               SIGN IN
             </v-btn>
           </v-col>
@@ -44,50 +58,101 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12" sm="6">
-                        <v-text-field label="First name*" v-model="firstname" required></v-text-field>
+                        <v-text-field
+                          label="First name*"
+                          v-model="firstname"
+                          required
+                        ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <v-text-field label="Last name*" v-model="lastname"></v-text-field>
+                        <v-text-field
+                          label="Last name*"
+                          v-model="lastname"
+                        ></v-text-field>
                       </v-col>
                       <v-col cols="12">
-                        <v-text-field label="Email*" required v-model="email"></v-text-field>
+                        <v-text-field
+                          label="Email*"
+                          required
+                          v-model="email"
+                        ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <v-text-field label="Password*" type="password" required v-model="password"></v-text-field>
+                        <v-text-field
+                          label="Password*"
+                          type="password"
+                          required
+                          v-model="password"
+                        ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <v-text-field label="Confirm Password*" type="password" v-model="c_pass" required></v-text-field>
+                        <v-text-field
+                          label="Confirm Password*"
+                          type="password"
+                          v-model="c_pass"
+                          required
+                        ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" transition="scale-transition"
-                          offset-y min-width="auto">
+                        <v-menu
+                          ref="menu"
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                        >
                           <template v-slot:activator="{ on, attrs }">
-                            <v-text-field v-model="dob" label="Date of birth*" prepend-icon="mdi-calendar" readonly
-                              v-bind="attrs" v-on="on" required></v-text-field>
+                            <v-text-field
+                              v-model="dob"
+                              label="Date of birth*"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              v-bind="attrs"
+                              v-on="on"
+                              required
+                            ></v-text-field>
                           </template>
-                          <v-date-picker v-model="dob" :active-picker.sync="activePicker" :max="new Date(
-                            Date.now() -
-                            new Date().getTimezoneOffset() * 60000
-                          )
-                              .toISOString()
-                              .substr(0, 10)
-                            " min="1950-01-01"></v-date-picker>
+                          <v-date-picker
+                            v-model="dob"
+                            :active-picker.sync="activePicker"
+                            :max="
+                              new Date(
+                                Date.now() -
+                                  new Date().getTimezoneOffset() * 60000
+                              )
+                                .toISOString()
+                                .substr(0, 10)
+                            "
+                            min="1950-01-01"
+                          ></v-date-picker>
                         </v-menu>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <v-autocomplete :items="[
-                          'Female',
-                          'Male',
-                          'Trans',
-                          'Agender',
-                          'Gender-neutral',
-                          'Non-binary',
-                          'Other',
-                        ]" label="Gender*" v-model="gender" required></v-autocomplete>
+                        <v-autocomplete
+                          :items="[
+                            'Female',
+                            'Male',
+                            'Trans',
+                            'Agender',
+                            'Gender-neutral',
+                            'Non-binary',
+                            'Other',
+                          ]"
+                          label="Gender*"
+                          v-model="gender"
+                          required
+                        ></v-autocomplete>
                       </v-col>
                       <v-col cols="12">
-                        <v-autocomplete :items="interests" :max="5" label="Interests*" multiple required
-                          v-model="pref"></v-autocomplete>
+                        <v-autocomplete
+                          :items="interests"
+                          :max="5"
+                          label="Interests*"
+                          multiple
+                          required
+                          v-model="pref"
+                        ></v-autocomplete>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -109,7 +174,6 @@
       </v-container>
     </v-col>
   </v-row>
-  
 </template>
 
 <script>
@@ -207,7 +271,6 @@ export default {
         const { data } = await response.json();
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        console.log(Object.keys(data));
 
         this.$store.commit(mutationNames.setID, data.user.id);
         this.$store.commit(mutationNames.setLoggedIn, true);

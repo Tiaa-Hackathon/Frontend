@@ -24,7 +24,7 @@ export default {
   //   if (token) {
   //     this.$store.commit(mutationNames.setLoggedIn, true);
   //   } else {
-  //     this.$store.commit(mutationNames.setLoggedIn, false);
+      // this.$store.commit(mutationNames.setLoggedIn, false);
   //     this.$router.push("/login");
   //   }
   // },

@@ -27,15 +27,25 @@
     <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/')"
       >Home</v-btn
     >
-    <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/user/profile')"
+    <v-btn
+      v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
+      text
+      @click="navigate('/user/profile')"
       >Profile</v-btn
     >
     <v-btn
       v-on:click="login"
-      v-if="$vuetify.breakpoint.mdAndUp"
+      v-if="!isLoggedIn && $vuetify.breakpoint.mdAndUp"
       text
       @click="navigate('/login')"
       >Login</v-btn
+    >
+    <v-btn
+      v-on:click="login"
+      v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
+      text
+      @click="logout"
+      >Logout</v-btn
     >
   </v-app-bar>
 </template>
@@ -56,15 +66,30 @@ export default {
       console.log(route);
       this.$router.push(route);
     },
+    logout() {
+      this.$store.state.auth.user.loggedIn = false;
+      this.$store.state.auth.user = {
+        name: "",
+        email: "",
+        loggedIn: false,
+      };
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      this.$router.push("/");
+    },
   },
   computed: {
     isLoggedIn() {
-      console.log("logged in status", this.$store.state.auth.user.loggedIn);
-      return this.$store.state.auth.user.loggedIn;
+      const token = localStorage.getItem("token");
+      return token ? true : false;
     },
   },
   created() {
-    console.log(this.$store.state.auth.user.loggedIn);
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.$store.state.auth.user.loggedIn = true;
+      this.$store.state.auth.user = JSON.parse(localStorage.getItem("user"));
+    }
   },
 };
 </script>
