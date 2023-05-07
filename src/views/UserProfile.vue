@@ -82,7 +82,7 @@ export default {
   padding: 24px;
   border-radius: 10px;
   margin-top: 5%;
-  background-color: #e5e5e5;
+  /* background-color: #e5e5e5; */
 }
 
 

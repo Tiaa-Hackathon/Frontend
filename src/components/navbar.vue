@@ -34,7 +34,7 @@
       v-on:click="login"
       v-if="$vuetify.breakpoint.mdAndUp"
       text
-      @click="navigate('login')"
+      @click="navigate('/login')"
       >Login</v-btn
     >
   </v-app-bar>
