@@ -25,6 +25,7 @@
     <v-card-actions>
       <v-row no-gutters align-self="center">
         <v-col>
+          <div >
           <v-btn icon v-on:click="upvote">
             <v-icon>mdi-thumb-up</v-icon>
           </v-btn>
@@ -33,23 +34,22 @@
             <v-icon>mdi-thumb-down</v-icon>
           </v-btn>
           <span>{{ post.downvotes }}</span>
-          <v-icon v-on:click="toggleComments(index)">mdi-comment</v-icon>
+          <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
+          </div>
         </v-col>
       </v-row>
     </v-card-actions>
-    <!-- <v-expand-transition>
+    <v-expand-transition>
       <div v-show="showComments[index]">
         <v-divider></v-divider>
         <v-card variant="tonal">
           <div class="comment-section">
             <h3>Comments</h3>
-            <div
-              v-for="(comment, index) in comments"
-              :key="index"
-              class="comment"
-            >
+            <div v-for="(comment, index) in comments" :key="index" class="comment">
               <p>
-                <strong>{{ comment.author }}</strong> ({{ comment.timestamp }})
+                <strong>{{ comment.author }}</strong> ({{
+                  comment.timestamp
+                }})
               </p>
               <p>{{ comment.content }}</p>
               <div v-if="!comment.replied">
@@ -76,16 +76,12 @@
           </div>
         </v-card>
       </div>
-    </v-expand-transition> -->
-    <v-dialog
-      v-model="showMessage"
-      max-width="1280"
-      style="
+    </v-expand-transition>
+    <v-dialog v-model="showMessage" max-width="1280" style="
         border-radius: 10px;
         background: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      "
-    >
+      ">
       <div style="background-color: white; width: 100%; height: 80vh">
         <h4>Message</h4>
       </div>
@@ -99,13 +95,22 @@
 
 <script>
 import MarkdownIt from "markdown-it";
+import CommentsCardVue from "@/components/CommentsCard.vue";
 
 export default {
   data() {
     return {
-      markedContent: "",
-      showMessage: false,
+      showComments: [],
       comments: [],
+      newComment: {
+        author: "John Doe", // Replace with the desired author name
+        content: "",
+        timestamp: "",
+      },
+      dropdownOpen: false,
+      markedContent: "## Hello world",
+      dialog: false,
+      components: CommentsCardVue,
     };
   },
   props: {
@@ -132,8 +137,40 @@ export default {
     downvote() {
       this.post.downvotes += 1;
     },
-    viewPost() {},
-    editPost() {},
+    viewPost() {
+      this.dialog = true;
+    },
+    editPost() { },
+    displaycomments() {
+      return CommentsCardVue;
+    },
+    addComment() {
+      this.comments.push({
+        author: "User",
+        content: this.newComment.content,
+        timestamp: new Date().toLocaleString(),
+        replied: false,
+        showReplyForm: false,
+      });
+      this.newComment.content = "";
+    },
+    showReplyForm(index) {
+      this.comments[index].showReplyForm = !this.comments[index].showReplyForm;
+    },
+    toggleComments(index) {
+      this.$set(this.showComments, index, !this.showComments[index]);
+    },
+    addReply(index) {
+      const comment = this.comments[index];
+      if (!comment.replyContent) {
+        alert("Please enter a reply.");
+        return;
+      }
+      comment.replyAuthor = "John Doe"; // Replace with the desired author name
+      comment.replyTimestamp = new Date().toLocaleString();
+      comment.replied = true;
+      comment.showReplyForm = false;
+    },
   },
   created() {
     const md = new MarkdownIt();
@@ -142,6 +179,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .edit-icon {
@@ -168,4 +206,50 @@ export default {
   margin-left: 20px;
   color: rgb(0, 0, 0);
 }
+
+textarea {
+  resize: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 0.5em;
+}
+
+.comment-section {
+  font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.comment {
+    padding: 1em;
+    border-left: 3px solid #0079d3;
+    background-color: #f6f7f8;
+    border-radius: 5px;
+    margin-bottom: 1em;
+  }
+
+  .comment p {
+    margin: 0;
+  }
+  
+  .comment strong {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .comment>p:first-child {
+    color: #3c3c3c;
+    margin-bottom: 0.5em;
+  }
+
+  .comment .comment-timestamp {
+    font-size: 12px;
+    color: #999;
+    margin-left: 5px;
+  }
+
 </style>
