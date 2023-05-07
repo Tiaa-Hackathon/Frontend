@@ -8,24 +8,24 @@ const authenticationModule = {
   state: {
     user: {
       loggedIn: false,
-      role: "",
       id: null,
+      username: "",
     },
   },
   mutations: {
     [mutationNames.setID](state, id) {
       Vue.set(state.user, "id", id);
     },
-    [mutationNames.setRole](state, role) {
-      Vue.set(state.user, "role", role);
-    },
     [mutationNames.setLoggedIn](state, loggedInStatus) {
       Vue.set(state.user, "loggedIn", loggedInStatus);
     },
     [mutationNames.clearUser](state) {
       Vue.set(state.user, "loggedIn", false);
-      Vue.set(state.user, "role", "");
       Vue.set(state.user, "id", null);
+    },
+    [mutationNames.setUsername](state, username) {
+      Vue.set(state.user, "username", username);
+      Vue.set(state.user, "loggedIn", true);
     },
   },
 };
