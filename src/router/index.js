@@ -19,6 +19,12 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/CreatePost.vue"),
   },
   {
+    path: "/message",
+    name: "message",
+    component: () =>
+      import(/* webpackChunkName: "message" */ "../views/MessageView.vue"),
+  },
+  {
     path: "/",
     name: "home",
     component: HomeView,
