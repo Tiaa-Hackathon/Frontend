@@ -12,13 +12,13 @@
 // import { mutationNames } from "@/store/mutationTypes";
 import NavBar from "@/components/navbar.vue";
 import Footer from "@/components/Footer.vue";
+
 export default {
   name: "App",
   components: {
     NavBar,
-    //UserProfile,
     Footer,
-  },
+},
   // created() {
   //   const token = localStorage.getItem("token");
   //   if (token) {

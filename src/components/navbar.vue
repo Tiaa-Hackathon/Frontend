@@ -25,8 +25,8 @@
       </v-list>
     </v-menu>
     <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/')"
-      >Home</v-btn
-    >
+      >Home</v-btn>
+    <v-btn v-if="isLoggedIn" text @click="navigate('message')">Message</v-btn>
     <v-btn
       v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
       text
@@ -58,6 +58,7 @@ export default {
         { title: "Home", route: "/" },
         { title: "Profile", route: "/user/profile" },
         { title: "Login", route: "/login" },
+        {title: "Message", route: "/message"}
       ],
     };
   },
