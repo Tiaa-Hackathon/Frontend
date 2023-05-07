@@ -1,35 +1,28 @@
 <template>
-  <div class="container">
-    <div class="profile-header">
-      <v-avatar class="profile-avatar" size="150">
-        <img :src="userImg"> <!-- {{ UserImg }}-->
-        
-      </v-avatar>
-      <div class="profile-name-container">
-        <h1 class="profile-name">{{ userId }}</h1> <!--{{ userId }}--> 
-        <span class="profile-title">{{ useremail }} </span> <!--userEmail-->
-      </div>
-    </div>
-    <div class="user-bio">
-      <p>{{ userBio }}</p> <!--userBio-->
-    </div>
-    <div class="profile-stats">
-      <div class="stat-item">
-        <div class="stat-number">{{ userPosts }}</div> <!--Number of them-->
-        <div class="stat-label">Posts</div> <!--Posts-->
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">{{ userUpvotes }}</div> <!--Upvotes-->
-        <div class="stat-label">Upvotes</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">{{ userDownvotes }}</div> <!--Number of them-->
-        <div class="stat-label">Downvotes</div> <!--Downvotes-->
-      </div>
-    </div>
+  <div>
+    <v-row style="background-color: beige; height: 50vh; margin-top: 10vh; margin-left: 15vh; margin-right: 15vh;">
+      <v-row style="margin-top: 3vh;">
+        <v-col cols="2">
+          <v-avatar size="20vh" style="margin-left: 3vh;">
+            <v-img :src="userImg" class="rounded-full"></v-img> <!-- {{ UserImg }}-->
+          </v-avatar>
+        </v-col>
+        <v-col cols="1">
+          <v-row style="margin-top: 1vh;">
+            <v-col>
+              <p class="username-text text-center">{{ userId }}</p>
+            </v-col>
+          </v-row>
+          <v-row style="">
+            <v-col>
+              <p class="email-text text-center">{{ useremail }}</p>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-row>
   </div>
 </template>
-
 <script>
 
 
@@ -50,23 +43,23 @@ export default {
       required: true,
       default: "tiaa@gmail.com"
     },
-    userImg:{
+    userImg: {
       type: Image,
       required: true,
       default: "https://i.genius.com/097177ea52f6ad0147914b68157107a588f47fb2?url=http%3A%2F%2Fwww.mushrecords.com%2Falbum_art_front%2FMH202_D.jpg"
     },
-    userPosts:{
+    userPosts: {
       type: Number,
       required: true,
       default: 0
     },
 
-    userUpvotes:{
+    userUpvotes: {
       type: Number,
       required: true,
       default: 0
     },
-    userDownvotes:{
+    userDownvotes: {
       type: Number,
       required: true,
       default: 0
@@ -154,5 +147,17 @@ export default {
 .stat-label {
   font-size: 18px;
   color: #666666;
+}
+
+.username-text{
+  font-size: 175%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 600;
+}
+
+.email-text{
+  color: #0072b1;
+  font-weight: bold;
 }
 </style>
