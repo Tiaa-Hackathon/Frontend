@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// import { mutationNames } from "@/store/mutationTypes";
 import NavBar from "@/components/navbar.vue";
 import Footer from "@/components/Footer.vue";
 export default {
@@ -18,6 +19,15 @@ export default {
     NavBar,
     Footer,
   },
+  // created() {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     this.$store.commit(mutationNames.setLoggedIn, true);
+  //   } else {
+  //     this.$store.commit(mutationNames.setLoggedIn, false);
+  //     this.$router.push("/login");
+  //   }
+  // },
 };
 </script>
 

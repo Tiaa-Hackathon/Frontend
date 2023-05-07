@@ -1,6 +1,6 @@
 export const mutationNames = {
   setID: "setID",
-  setRole: "setRole",
+  setUsername: "setUsername",
   setLoggedIn: "setLoggedIn",
   clearUser: "clearUser",
   setLoading: "setLoading",

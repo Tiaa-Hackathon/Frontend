@@ -24,6 +24,7 @@
                   solo
                   label="Password"
                   hint="Enter your Password"
+                  type="password"
                   v-model="password"
                 ></v-text-field>
               </v-col>
@@ -35,12 +36,9 @@
             <v-btn
               block
               elevation="2"
-              @click="submit()"
-              style="
-                margin-top: 2vh;
-                background-color: rgba(110, 0, 149, 1);
-                color: white;
-              "
+              type="submit"
+              style="background-color: rgba(110, 0, 149, 1); color: white"
+              @click="handleLogin"
             >
               SIGN IN
             </v-btn>
@@ -48,23 +46,13 @@
           <v-col cols="4" offset="2">
             <v-dialog v-model="dialog" persistent max-width="600px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  block
-                  color=""
-                  v-bind="attrs"
-                  v-on="on"
-                  style="
-                    margin-top: 2vh;
-                    background-color: rgba(110, 0, 149, 1);
-                    color: white;
-                  "
-                >
+                <v-btn block color="" v-bind="attrs" v-on="on">
                   REGISTER
                 </v-btn>
               </template>
               <v-card>
                 <v-card-title>
-                  <span>User Profile</span>
+                  <span>User Registration</span>
                 </v-card-title>
                 <v-card-text>
                   <v-container>
@@ -137,7 +125,6 @@
                                 .substr(0, 10)
                             "
                             min="1950-01-01"
-                            @change="save"
                           ></v-date-picker>
                         </v-menu>
                       </v-col>
@@ -159,19 +146,8 @@
                       </v-col>
                       <v-col cols="12">
                         <v-autocomplete
-                          :items="[
-                            'Science',
-                            'Technology',
-                            'Sports',
-                            'Economics',
-                            'Geopolitics',
-                            'Environment',
-                            'Business',
-                            'Finance',
-                            'Art',
-                            'Culture',
-                            'Others',
-                          ]"
+                          :items="interests"
+                          :max="5"
                           label="Interests*"
                           multiple
                           required
@@ -187,55 +163,9 @@
                   <v-btn color="blue darken-1" text @click="dialog = false">
                     Close
                   </v-btn>
-
-                  <v-dialog v-model="dialog1" persistent max-width="600px">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        v-bind="attrs"
-                        v-on="on"
-                        @click="cons()"
-                      >
-                        Next
-                      </v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title>
-                        <span class="text-h5">Upload pictures</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container>
-                          <v-btn
-                            color="blue-grey"
-                            class="ma-2 white--text"
-                            @click="loader = 'loading'"
-                          >
-                            Upload
-                            <v-icon right dark> mdi-cloud-upload </v-icon>
-                          </v-btn>
-                        </v-container>
-                      </v-card-text>
-
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="blue darken-1"
-                          text
-                          @click="dialog1 = false"
-                        >
-                          Back
-                        </v-btn>
-                        <v-btn
-                          color="blue darken-1"
-                          text
-                          @click="registerUser()"
-                        >
-                          Save
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
+                  <v-btn color="blue darken-1" text @click="handleRegister">
+                    Register
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -247,6 +177,7 @@
 </template>
 
 <script>
+import { mutationNames } from "@/store/mutationTypes";
 export default {
   data() {
     return {
@@ -259,6 +190,22 @@ export default {
       c_pass: "",
       gender: "",
       pref: [],
+      interests: [
+        "Art",
+        "Books",
+        "Cars",
+        "Cooking",
+        "Dancing",
+        "Fashion",
+        "Fitness",
+        "Gaming",
+        "Movies",
+        "Music",
+        "Photography",
+        "Sports",
+        "Travel",
+        "Writing",
+      ],
 
       activePicker: null,
       dob: null,
@@ -272,100 +219,126 @@ export default {
     },
   },
 
-  computed: {
-    alertMessage() {
-      if (!this.email) {
-        return "Please enter a username";
-      } else {
-        if (!this.password) {
-          return "Please enter a password";
-        } else if (this.password.length < 8) {
-          return "Password should be at least 8 characters long";
-        } else if (this.password.length > 20) {
-          return "Password should not be more than 20 characters long";
-        } else {
-          return null;
-        }
-      }
-    },
-  },
+  // computed: {
+  //   alertMessage() {
+  //     if (!this.email) {
+  //       return "Please enter a username";
+  //     } else {
+  //       if (!this.password) {
+  //         return "Please enter a password";
+  //       } else if (this.password.length < 8) {
+  //         return "Password should be at least 8 characters long";
+  //       } else if (this.password.length > 20) {
+  //         return "Password should not be more than 20 characters long";
+  //       } else {
+  //         return null;
+  //       }
+  //     }
+  //   },
+  // },
 
   methods: {
+    isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+
+    async login() {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const url = `${process.env.VUE_APP_BACKEND_URL}/auth/login`;
+      const body = {
+        email: this.email,
+        password: this.password,
+      };
+
+      const requestOptions = {
+        method: "POST",
+        body: JSON.stringify(body),
+        redirect: "follow",
+        headers: myHeaders,
+      };
+
+      const response = await fetch(url, requestOptions);
+      return response;
+    },
+    async handleLogin() {
+      if (!this.isValidEmail(this.email)) return alert("Invalid Email");
+      if (!this.password) return alert("Password is required");
+
+      const response = await this.login();
+      if (response.ok) {
+        const { data } = await response.json();
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        console.log(Object.keys(data));
+
+        this.$store.commit(mutationNames.setID, data.user.id);
+        this.$store.commit(mutationNames.setLoggedIn, true);
+        this.$router.push("/");
+      } else {
+        alert("Invalid Credentials");
+      }
+    },
     save(date) {
       this.$refs.menu.save(date);
     },
-
-    async submit() {
-      if (this.alertMessage) {
-        // this.$router.push('/landingPage')
-        return;
-      }
-
-      // try {
-      //     const response = await axios.post('//localhost:8000/api/login', { email: this.email, password: this.password })
-
-      //     const success = (response.status == 200)
-      //     console.log(success)
-
-      //     if (success) {
-      //         this.$router.push('/')
-      //         this.$cookies.set("email", this.email)
-      //     }
-      // }
-      // catch (err) {
-      //     console.log(err)
-      // }
-    },
-
-    async registerUser() {
+    async handleRegister() {
+      if (!this.firstname) return alert("First Name is required");
+      if (!this.lastname) return alert("Last Name is required");
+      if (!this.isValidEmail(this.email)) return alert("Invalid Email");
+      if (!this.password) return alert("Password is required");
+      if (!this.c_pass) return alert("Confirm Password is required");
+      if (this.password !== this.c_pass) return alert("Passwords do not match");
+      if (this.email.length < 8)
+        return alert("Password should be at least 8 characters long");
+      if (!this.gender) return alert("Gender selection is required");
+      if (this.pref.length === 0)
+        return alert("Interest selection is required");
+      if (!this.dob) return alert("Date of birth is required");
       const newUser = {
         email: this.email,
-        firstname: this.firstname,
-        lastname: this.lastname,
+        name: `${this.firstname}${this.lastname ? " " + this.lastname : ""}}`,
         password: this.password,
-        gender: this.gender,
-        preferences: this.pref,
+        confirmPassword: this.c_pass,
         dob: this.dob,
+        gender: this.gender,
+        interests: this.pref,
       };
-      console.log(newUser);
 
-      // try {
-      //     const response = await axios.post('//localhost:8000/api/signup', newUser)
+      const response = await this.register(newUser);
 
-      //     const success = (response.status == 200)
-
-      //     if (success) {
-      //         this.$router.push('/')
-      //         this.$cookies.set("email", this.email)
-      //     }
-      // }
-      // catch (err) {
-      //     console.log(err)
-      // }
+      if (response.ok) {
+        alert("Registration Successful! Please login to continue");
+        const { data } = await response.json();
+        localStorage.setItem("user", JSON.stringify(data.user));
+        this.$store.commit(mutationNames.setID, data.user.id);
+        this.$store.commit(mutationNames.setLoggedIn, false);
+        this.$router.push("/");
+      } else {
+        alert("Invalid Credentials");
+      }
     },
+    async register(data) {
+      const url = `${process.env.VUE_APP_BACKEND_URL}/auth/register`;
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-    cons() {
-      console.log(this.username);
-      console.log(this.firstname);
-      console.log(this.lastname);
-      console.log(this.c_pass);
-      console.log(this.gender);
-      console.log(this.pref);
-      console.log(this.dob);
+      const requestOptions = {
+        method: "POST",
+        body: JSON.stringify(data),
+        redirect: "follow",
+        headers: myHeaders,
+      };
+
+      const response = await fetch(url, requestOptions);
+      return response;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-// .alertmessage {
-//     font-size: 100%;
-//     margin-left: 10%;
-//     margin-right: 10%;
-//     margin-top: 7%;
-//     color: rgba(109, 58, 69, 1);
-// }
-
 .welcome-text {
   font-size: 250%;
   color: rgb(0, 0, 0);
@@ -374,9 +347,4 @@ export default {
   font-weight: 600;
   align-self: center;
 }
-
-// .no-underline .v-text-field__slot input {
-//   text-decoration: none;
-//   border-bottom: none;
-// }
 </style>
