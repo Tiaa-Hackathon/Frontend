@@ -11,11 +11,15 @@
     </div>
     <v-card class="card">
       <Editor />
+      <div id="tags" class="tags">
+        <Tags />
+      </div>
     </v-card>
   </div>
 </template>
 
 <script>
+import Tags from "@/components/Tags.vue";
 import Editor from "@/components/Editor.vue";
 export default {
   data() {
@@ -23,6 +27,7 @@ export default {
   },
   components: {
     Editor,
+    Tags,
   },
 };
 </script>
