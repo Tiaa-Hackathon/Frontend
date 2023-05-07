@@ -7,7 +7,7 @@
       </v-avatar>
       <div class="profile-name-container">
         <h1 class="profile-name">{{ userId }}</h1> <!--{{ userId }}--> 
-        <span class="profile-title">{{ userJob }} </span> <!--userAchieve-->
+        <span class="profile-title">{{ useremail }} </span> <!--userEmail-->
         <span class="profile-connections">{{ userStats }}</span> <!-- UserStats-->
       </div>
     </div>
@@ -39,17 +39,17 @@ export default {
     userId: {
       type: String,
       required: true,
-      default: "Tiaa@gmail.com"
+      default: "Username"
     },
     userBio: {
       type: String,
       required: true,
       default: "Lorem ipsum mit below den aiher enzi"
     },
-    userJob: {
+    useremail: {
       type: String,
       required: true,
-      default: "Unemployed"
+      default: "tiaa@gmail.com"
     },
     userStats:{
       type: String,
