@@ -1,7 +1,7 @@
 <template>
-  <v-row>
-    <v-col cols="4" offset="4" align-self="center">
-      <p class="welcome-text">Welcome Back</p>
+  <v-row style="margin-top: 15vh;">
+    <v-col cols="4" offset="4" >
+      <p class="welcome-text text-center">Welcome Back</p>
     </v-col>
     <v-col cols="4" offset="4">
       <v-container style="padding-top: 5vh; padding-bottom: 5vh">
@@ -372,6 +372,7 @@ export default {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 600;
+  align-self: center;
 }
 
 // .no-underline .v-text-field__slot input {

@@ -4,16 +4,19 @@
       <LoadingSpinner v-if="false" />
       <NavBar />
       <router-view />
+      <Footer></Footer>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import NavBar from "@/components/navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   name: "App",
   components: {
     NavBar,
+    Footer,
   },
 };
 </script>
