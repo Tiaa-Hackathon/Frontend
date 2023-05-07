@@ -35,4 +35,12 @@ export default {
 /*
 @import url("@/assets/styles.css");
 */
+#app{
+  background-image: url('@/assets/bg.png');
+  background-size: 100%;
+  background-position: center center;
+  
+  /* background-repeat: no-repeat; */
+}
+
 </style>
