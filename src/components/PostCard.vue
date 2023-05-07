@@ -11,13 +11,13 @@
         <div>{{ post.author.name }} | {{ post.author.info }}</div>
         <div>{{ post.date }}</div>
       </div>
-      <v-btn icon class="edit-icon" v-on:click="editPost">
+      <v-btn icon class="edit-icon" v-on:click="showEditPost = true">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <!-- <v-btn icon class="message-icon" @click="showMessage = true">
         <v-icon>mdi-comment</v-icon>
       </v-btn> -->
-      
+
     </v-card-subtitle>
     <v-card-title>
       <h3>{{ post.title }}</h3>
@@ -26,16 +26,16 @@
     <v-card-actions>
       <v-row no-gutters align-self="center">
         <v-col>
-          <div >
-          <v-btn icon v-on:click="upvote">
-            <v-icon>mdi-thumb-up</v-icon>
-          </v-btn>
-          <span>{{ post.upvotes }}</span>
-          <v-btn icon v-on:click="downvote">
-            <v-icon>mdi-thumb-down</v-icon>
-          </v-btn>
-          <span>{{ post.downvotes }}</span>
-          <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
+          <div>
+            <v-btn icon v-on:click="upvote">
+              <v-icon>mdi-thumb-up</v-icon>
+            </v-btn>
+            <span>{{ post.upvotes }}</span>
+            <v-btn icon v-on:click="downvote">
+              <v-icon>mdi-thumb-down</v-icon>
+            </v-btn>
+            <span>{{ post.downvotes }}</span>
+            <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
           </div>
         </v-col>
       </v-row>
@@ -46,11 +46,13 @@
         <v-card variant="tonal">
           <div class="comment-section">
             <h3>Comments</h3>
-            <div v-for="(comment, index) in comments" :key="index" class="comment">
+            <div
+              v-for="(comment, index) in comments"
+              :key="index"
+              class="comment"
+            >
               <p>
-                <strong>{{ comment.author }}</strong> ({{
-                  comment.timestamp
-                }})
+                <strong>{{ comment.author }}</strong> ({{ comment.timestamp }})
               </p>
               <p>{{ comment.content }}</p>
               <div v-if="!comment.replied">
@@ -148,6 +150,8 @@
 
 <script>
 import MarkdownIt from "markdown-it";
+import Editor from "@/components/Editor.vue";
+import Tags from "@/components/Tags.vue";
 import CommentsCardVue from "@/components/CommentsCard.vue";
 
 export default {
@@ -156,6 +160,7 @@ export default {
       showMessage: false,
       showComments: [],
       comments: [],
+      showEditPost: false,
       newComment: {
         author: "John Doe", // Replace with the desired author name
         content: "",
@@ -166,6 +171,10 @@ export default {
       dialog: false,
       components: CommentsCardVue,
     };
+  },
+  components: {
+    Editor,
+    Tags,
   },
   props: {
     post: {
@@ -194,7 +203,7 @@ export default {
     viewPost() {
       this.dialog = true;
     },
-    editPost() { },
+    editPost() {},
     displaycomments() {
       return CommentsCardVue;
     },
@@ -234,7 +243,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .edit-icon {
   position: absolute;
@@ -260,6 +268,55 @@ export default {
   margin-left: 20px;
   color: rgb(0, 0, 0);
 }
+.edit-post-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.heading {
+  margin: 20px;
+  font-size: 2rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+createpost {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor {
+  width: 100%;
+  height: 100%;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.interact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.close {
+  margin-bottom: 5px;
+  width: 5%;
+  text-align: center;
+  align-content: right;
+  margin-left: 95%;
+}
 
 textarea {
   resize: none;
@@ -272,38 +329,37 @@ textarea {
 
 .comment-section {
   font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .comment {
-    padding: 1em;
-    border-left: 3px solid #0079d3;
-    background-color: #f6f7f8;
-    border-radius: 5px;
-    margin-bottom: 1em;
-  }
+  padding: 1em;
+  border-left: 3px solid #0079d3;
+  background-color: #f6f7f8;
+  border-radius: 5px;
+  margin-bottom: 1em;
+}
 
-  .comment p {
-    margin: 0;
-  }
-  
-  .comment strong {
-    font-weight: 500;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .comment>p:first-child {
-    color: #3c3c3c;
-    margin-bottom: 0.5em;
-  }
+.comment p {
+  margin: 0;
+}
 
-  .comment .comment-timestamp {
-    font-size: 12px;
-    color: #999;
-    margin-left: 5px;
-  }
+.comment strong {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
 
+.comment > p:first-child {
+  color: #3c3c3c;
+  margin-bottom: 0.5em;
+}
+
+.comment .comment-timestamp {
+  font-size: 12px;
+  color: #999;
+  margin-left: 5px;
+}
 </style>

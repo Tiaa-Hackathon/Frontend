@@ -10,10 +10,9 @@
       ></v-text-field>
     </div>
     <v-card class="card">
-      <Editor :initialValue="post.content" />
+      <Editor :bodyContent="post.content" />
       <div class="post-details">
-        <span>Posted by {{ post.user }} on {{ post.date }}</span>
-          <v-btn class="EditPost" @click="savePost">Save</v-btn>
+        <v-btn class="EditPost" @click="savePost" color="primary">Save</v-btn>
       </div>
     </v-card>
   </div>
@@ -29,27 +28,16 @@ export default {
     },
   },
   methods: {
-    savePost(){
+    savePost() {
       console.log("BRAHHHHH");
-    }
+    },
   },
   data() {
     return {
       post: {
-        title: '',
-        content: '',
-        user: '',
-        date: '',
+        title: this.$route.query.title || "",
+        content: this.$route.query.content || "",
       },
-    };
-  },
-  mounted() {
-    // Fetch post data using postId prop
-    this.post = {
-      title: 'Example Post',
-      content: 'This is an example post content.',
-      user: 'John Doe',
-      date: 'May 6, 2023',
     };
   },
   components: {
@@ -96,7 +84,7 @@ h1 {
   color: #999;
 }
 
-.EditPost{
+.EditPost {
   background-color: #999;
   color: beige;
   margin-top: 10px;
