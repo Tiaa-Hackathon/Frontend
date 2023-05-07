@@ -8,7 +8,6 @@
       <div class="profile-name-container">
         <h1 class="profile-name">{{ userId }}</h1> <!--{{ userId }}--> 
         <span class="profile-title">{{ useremail }} </span> <!--userEmail-->
-        <span class="profile-connections">{{ userStats }}</span> <!-- UserStats-->
       </div>
     </div>
     <div class="user-bio">
@@ -50,11 +49,6 @@ export default {
       type: String,
       required: true,
       default: "tiaa@gmail.com"
-    },
-    userStats:{
-      type: String,
-      required: true,
-      default: "Oscar Nominee"
     },
     userImg:{
       type: Image,
