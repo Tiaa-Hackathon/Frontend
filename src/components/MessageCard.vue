@@ -81,13 +81,13 @@ export default {
       chatRooms: [
         {
           author: "A",
-          email: "ojasinamdar101@gmail.com",
+          email: "achyut.shukla.btech2020@sitpune.edu.in",
           content: "message content",
           timestamp: "25-05-2020",
         },
         {
           author: "B",
-          email: "ojasinamdar100@gmail.com",
+          email: "shriji.jha.btech2020@sitpune.edu.in",
           content: "message content",
           timestamp: "25-05-2020",
         },

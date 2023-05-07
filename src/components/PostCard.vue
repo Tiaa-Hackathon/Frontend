@@ -14,9 +14,9 @@
       <v-btn icon class="edit-icon" v-on:click="showEditPost = true">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn icon class="message-icon" @click="showMessage = true">
+      <!-- <v-btn icon class="message-icon" @click="showMessage = true">
         <v-icon>mdi-comment</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-card-subtitle>
     <v-card-title>
       <h3>{{ post.title }}</h3>
@@ -79,7 +79,7 @@
         </v-card>
       </div>
     </v-expand-transition>
-    <v-dialog
+    <!-- <v-dialog
       v-model="showMessage"
       max-width="1280"
       style="
@@ -91,7 +91,7 @@
       <div style="background-color: white; width: 100%; height: 80vh">
         <h4>Message</h4>
       </div>
-    </v-dialog>
+    </v-dialog> -->
 
     <v-dialog
       v-model="showEditPost"
