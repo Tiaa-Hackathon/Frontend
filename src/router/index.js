@@ -20,6 +20,13 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/CreatePost.vue"),
   },
   {
+    path: "/post/edit",
+    name: "edit-post",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/EditPost.vue"),
+  },
+  {
     path: "/message",
     name: "message",
     component: () =>
@@ -33,8 +40,7 @@ const routes = [
   {
     path: "/user/profile",
     name: "UserProfile",
-    component: () => 
-    import ("../views/UserProfile.vue"),
+    component: () => import("../views/UserProfile.vue"),
   },
   {
     path: "/*",

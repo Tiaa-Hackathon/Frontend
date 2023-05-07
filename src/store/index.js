@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const authenticationModule = {
   state: {
     user: {
+      email: "",
       loggedIn: false,
       id: null,
       username: "",
@@ -15,6 +16,9 @@ const authenticationModule = {
   mutations: {
     [mutationNames.setID](state, id) {
       Vue.set(state.user, "id", id);
+    },
+    [mutationNames.setEmail](state, email) {
+      Vue.set(state.user, "email", email);
     },
     [mutationNames.setLoggedIn](state, loggedInStatus) {
       Vue.set(state.user, "loggedIn", loggedInStatus);

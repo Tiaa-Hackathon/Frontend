@@ -51,8 +51,7 @@
           <div
             class="toolbar-inner__bottom px-2 w-full h-10 flex justify-between items-center"
           >
-            <div class="left-panel">
-            </div>
+            <div class="left-panel"></div>
           </div>
         </div>
       </div>
@@ -69,6 +68,11 @@ export default {
   name: "Editor",
   props: {
     toolbarId: String,
+
+    bodyContent: {
+      type: String,
+      default: "",
+    },
   },
   data: function () {
     return {
@@ -183,6 +187,9 @@ export default {
       quill.getModule("toolbar").addHandler("link", this.handleTextLink);
     },
   },
+  created() {
+    this.content = this.bodyContent;
+  },
   mounted: function () {
     this.overrideEditorStyles();
     this.injectCSSStyles();
@@ -191,7 +198,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.editor{
+.editor {
   padding: 15px;
   height: 40vh;
 }
