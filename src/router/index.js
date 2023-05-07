@@ -30,6 +30,12 @@ const routes = [
     component: HomeView,
   },
   {
+    path: "/user/profile",
+    name: "UserProfile",
+    component: () => 
+    import ("../views/UserProfile.vue"),
+  },
+  {
     path: "/*",
     name: "error",
     component: ErrorPage,

@@ -27,8 +27,8 @@
     <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/')"
       >Home</v-btn
     >
-    <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/about')"
-      >About</v-btn
+    <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/user/profile')"
+      >Profile</v-btn
     >
     <v-btn
       v-on:click="login"
@@ -46,7 +46,7 @@ export default {
     return {
       menuItems: [
         { title: "Home", route: "/" },
-        { title: "Profile", route: "/profile" },
+        { title: "Profile", route: "/user/profile" },
         { title: "Login", route: "/login" },
       ],
     };

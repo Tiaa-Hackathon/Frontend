@@ -11,7 +11,6 @@
 <script>
 // import { mutationNames } from "@/store/mutationTypes";
 import NavBar from "@/components/navbar.vue";
-
 import Footer from "@/components/Footer.vue";
 export default {
   name: "App",

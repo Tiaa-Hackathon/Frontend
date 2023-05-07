@@ -24,6 +24,7 @@ export default {
         { label: 'Lifestyle', value: 'Lifestyle' },
         { label: 'Politics', value: 'Politics' },
         { label: 'Food', value: 'Food' },
+        {label: 'Sports', value: 'Sports'}
       ],
       checkedItems: [],
     };
