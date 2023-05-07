@@ -1,5 +1,5 @@
 <template>
-    <v-footer color="black" app>
+    <v-footer color="black" style="opacity: 0.8;"  app>
       <v-row align="center" justify="center">
         <v-col md="6" sm="8" xs="12" class="text-center">
           <v-btn icon href="#">
@@ -16,7 +16,7 @@
         </v-col>
   
         <v-col md="6" sm="4" xs="12" class="text-center">
-          <span class="white--text">&copy; 2023 TIAA. All rights reserved.</span>
+          <span class="white--text">&copy; All rights reserved.</span>
         </v-col>
       </v-row>
     </v-footer>
