@@ -2,8 +2,8 @@
   <v-app>
     <v-main>
       <!-- <LoadingSpinner v-if="$store.state.loading" /> -->
-      <router-view />
       <NavBar />
+      <router-view />
     </v-main>
   </v-app>
 </template>
