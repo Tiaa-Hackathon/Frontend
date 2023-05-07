@@ -23,7 +23,8 @@
     "vue": "^2.6.11",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.5.1",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@mdi/js": "^7.2.96",
