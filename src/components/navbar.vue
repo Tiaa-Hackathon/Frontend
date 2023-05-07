@@ -37,13 +37,6 @@
       @click="navigate('login')"
       >Login</v-btn
     >
-    <v-btn
-      dark
-      v-on:click="register"
-      v-if="$vuetify.breakpoint.mdAndUp"
-      @click="navigate('register')"
-      >Signup</v-btn
-    >
   </v-app-bar>
 </template>
 
@@ -55,7 +48,6 @@ export default {
         { title: "Home", route: "/" },
         { title: "Profile", route: "/profile" },
         { title: "Login", route: "/login" },
-        { title: "Signup", route: "/register" },
       ],
     };
   },
