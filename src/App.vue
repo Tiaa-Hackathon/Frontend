@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <!-- <LoadingSpinner v-if="$store.state.loading" /> -->
+      <LoadingSpinner v-if="false" />
       <NavBar />
       <router-view />
     </v-main>

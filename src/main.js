@@ -25,6 +25,12 @@ Vue.prototype.$store = store;
 
 Vue.use(VueQuill);
 
+Vue.component("LoadingSpinner", () =>
+  import(
+    /* webpackChunkName: "loading-spinner" */ "@/components/LoadingSpinner.vue"
+  )
+);
+
 new Vue({
   store: store,
   router,
