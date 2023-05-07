@@ -81,7 +81,7 @@ export default {
     editorConfig: function () {
       return {
         options: {
-          placeholder: "Write your answer...",
+          placeholder: "Write your post...",
           modules: {
             toolbar: `#toolbar${this.toolbarId}`,
             history: {
@@ -157,8 +157,9 @@ export default {
       }
     },
     toggleMentionsMenu: function () {
-      console.log(this.getQuill.getModule("mention"));
-      this.getQuill.getModule("mention").openMenu("@");
+      var mentionModule = this.getQuill.getModule("mention");
+      mentionModule.container.classList.add("custom-mention-menu");
+      mentionModule.openMenu("@");
     },
     handleTextLink: function (value) {
       const href = this.linkInput;
@@ -190,41 +191,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/*
-.toolbar {
-  padding: 0;
-  &-inner {
-    position: relative;
-    transition: top 0.25s ease-in-out;
-  }
-  &-inner[y-position="top"] {
-    top: -2px;
-  }
-  &-inner[y-position="middle"] {
-    top: -40px;
-  }
-  &-inner[y-position="bottom"] {
-    top: -80px;
-  }
-  .toolbar-inner {
-    &__bottom {
-      .right-panel {
-        svg {
-          margin-left: 0.1rem;
-        }
-        button:nth-of-type(2) {
-          svg {
-            transform: scaleX(-1);
-          }
-        }
-      }
-    }
-  }
-}
-*/
 .editor{
   padding: 15px;
   height: 40vh;
 }
-
 </style>
