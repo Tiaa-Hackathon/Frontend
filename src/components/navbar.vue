@@ -57,6 +57,15 @@ export default {
       this.$router.push(route);
     },
   },
+  computed: {
+    isLoggedIn() {
+      console.log("logged in status", this.$store.state.auth.user.loggedIn);
+      return this.$store.state.auth.user.loggedIn;
+    },
+  },
+  created() {
+    console.log(this.$store.state.auth.user.loggedIn);
+  },
 };
 </script>
 

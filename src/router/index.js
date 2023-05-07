@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import ErrorPage from "../views/ErrorPage.vue";
 
 Vue.use(VueRouter);
 
@@ -18,9 +19,20 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/CreatePost.vue"),
   },
   {
+    path: "/message",
+    name: "message",
+    component: () =>
+      import(/* webpackChunkName: "message" */ "../views/MessageView.vue"),
+  },
+  {
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+    path: "/*",
+    name: "error",
+    component: ErrorPage,
   },
 ];
 
