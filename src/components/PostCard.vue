@@ -14,6 +14,9 @@
       <v-btn icon class="edit-icon" v-on:click="editPost">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
+      <!-- <v-btn icon class="message-icon" @click="showMessage = true">
+        <v-icon>mdi-comment</v-icon>
+      </v-btn> -->
       
     </v-card-subtitle>
     <v-card-title>
