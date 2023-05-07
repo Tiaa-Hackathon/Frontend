@@ -17,7 +17,6 @@
       <!-- <v-btn icon class="message-icon" @click="showMessage = true">
         <v-icon>mdi-comment</v-icon>
       </v-btn> -->
-      
     </v-card-subtitle>
     <v-card-title>
       <h3>{{ post.title }}</h3>
