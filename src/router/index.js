@@ -42,6 +42,7 @@ const routes = [
     name: "UserProfile",
     component: () => import("../views/UserProfile.vue"),
   },
+  
   {
     path: "/*",
     name: "error",
