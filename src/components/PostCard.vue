@@ -2,6 +2,7 @@
   <!-- <v-container align-self="center" justify="center">
     <v-row align-self="auto" justify="center">
       <v-col cols="12" md="6"> -->
+  <div>
   <v-card class="mb-5" style="margin: 20px">
     <v-card-subtitle class="post-info">
       <v-avatar style="margin: 10px; width: 80px; height: 80px">
@@ -146,10 +147,10 @@
       </div>
     </v-dialog>
   </v-card>
-
   <!-- </v-col>
     </v-row>
   </v-container> -->
+  </div>
 </template>
 
 <script>
