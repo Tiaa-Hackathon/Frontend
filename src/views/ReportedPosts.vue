@@ -51,20 +51,45 @@ export default {
   },
   methods: {
     async getAllPosts() {
-      const url = `${process.env.VUE_APP_BACKEND_URL}/post/all`;
+      const url = `${process.env.VUE_APP_BACKEND_URL}/post/flag/all`;
 
-      const response = await fetch(url);
+      const headers = new Headers();
+      headers.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+
+      const requestOptions = {
+        method: "GET",
+        headers: headers,
+        redirect: "follow",
+      };
+
+      const response = await fetch(url, requestOptions);
       return response;
     },
   },
   async created() {
     const response = await this.getAllPosts();
 
-    const {
-      data: { posts },
-    } = await response.json();
+    const { data } = await response.json();
+    console.log("data", data);
+    const temp = [];
+    for (let post in data) {
+      temp.push(data[post].post_id);
 
-    this.postList = posts;
+      // console.log(post, data[post].post_id);
+    }
+    console.log(temp);
+    this.postList = temp;
+
+    // const temp = [];
+    // for (let post in data) {
+    //   // post.post_id
+    //   temp.push(data[post].post_id);
+    // }
+    // this.postList = temp;
+    // console.log("post list", this.postList);
   },
 };
 </script>

@@ -80,26 +80,20 @@ export default {
       chattingTo: "",
       chatRooms: [
         {
-          author: "A",
+          author: "Achyut",
           email: "achyut.shukla.btech2020@sitpune.edu.in",
           content: "message content",
           timestamp: "25-05-2020",
         },
         {
-          author: "B",
+          author: "Shriji",
           email: "shriji.jha.btech2020@sitpune.edu.in",
           content: "message content",
           timestamp: "25-05-2020",
         },
         {
-          author: "Author",
-          email: "abcaaaa@yahoo.com",
-          content: "message content",
-          timestamp: "25-05-2020",
-        },
-        {
-          author: "Author",
-          email: "abcaa@yahoo.com",
+          author: "Pratham",
+          email: "pratham.talekar.btech2020@sitpune.edu.in",
           content: "message content",
           timestamp: "25-05-2020",
         },

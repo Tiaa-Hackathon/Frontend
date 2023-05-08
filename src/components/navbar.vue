@@ -98,11 +98,7 @@ export default {
     },
     isMod() {
       const user = JSON.parse(localStorage.getItem("user"));
-      // if (user) {
-      //   user.isModerator
-      // }
-      // return false;
-      return user.isModerator ? user.isModerator : false;
+      return user?.isModerator ? user?.isModerator : false;
     },
   },
   mounted() {

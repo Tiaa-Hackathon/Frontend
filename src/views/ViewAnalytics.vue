@@ -151,8 +151,8 @@ export default {
   text-align: center;
   padding: 20px;
   margin: 20px;
-  width: 250px;
-  height: 150px;
+  width: 10%;
+  height: 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;
