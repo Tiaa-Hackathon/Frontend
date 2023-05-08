@@ -25,7 +25,8 @@
       </v-list>
     </v-menu>
     <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/')"
-      >Home</v-btn>
+      >Home</v-btn
+    >
     <!-- <v-btn v-if="isLoggedIn" text @click="navigate('message')">Message</v-btn> -->
     <v-btn
       v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
@@ -63,9 +64,9 @@ export default {
         { title: "Home", route: "/" },
         { title: "Profile", route: "/user/profile" },
         { title: "Login", route: "/login" },
-        {title: "Message", route: "/message"},
-        {title: "ViewAnalytics", route: "/view/analytics"},
-        {title: ""}
+        { title: "Message", route: "/message" },
+        { title: "View Analytics", route: "/view/analytics" },
+        { title: "Flagged posts", route: "/reported/posts" },
       ],
     };
   },
@@ -91,10 +92,10 @@ export default {
       const token = localStorage.getItem("token");
       return token ? true : false;
     },
-    isMod(){
-      const user = JSON.parse(localStorage.getItem("user"))
+    isMod() {
+      const user = JSON.parse(localStorage.getItem("user"));
       return user.isModerator;
-    }
+    },
   },
   created() {
     const token = localStorage.getItem("token");
@@ -106,4 +107,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>
