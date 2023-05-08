@@ -34,12 +34,12 @@
                 <v-checkbox
                   v-model="checkboxValue"
                   @change="handleCheckboxChange"
-                  label="Option 1"
+                  label="Inappropriate"
                   color="#6E0095"
                 ></v-checkbox>
               </v-list-item>
-              <v-list-item @click="handleClick('Option 2')">
-                <v-list-item-title>Option 1</v-list-item-title>
+              <v-list-item @click="handleClick('block')">
+                <v-list-item-title>Block</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
