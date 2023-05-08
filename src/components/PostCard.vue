@@ -3,106 +3,116 @@
     <v-row align-self="auto" justify="center">
       <v-col cols="12" md="6"> -->
   <div>
-  <v-card class="mb-5" style="margin: 20px">
-    <v-card-subtitle class="post-info">
-      <v-avatar style="margin: 10px; width: 80px; height: 80px">
-        <img src="https://randomuser.me/api/portraits/men/71.jpg" />
-      </v-avatar>
-      <div class="author-info">
-        <div>{{ post.author.name }} | {{ post.author.info }}</div>
-        <div>
-          {{ new Date(this.post.createdAt).toLocaleDateString() }}
+    <v-card class="mb-5" style="margin: 20px">
+      <v-card-subtitle class="post-info">
+        <v-avatar style="margin: 10px; width: 80px; height: 80px">
+          <img src="https://randomuser.me/api/portraits/men/71.jpg" />
+        </v-avatar>
+        <div class="author-info">
+          <div>{{ post.author.name }} | {{ post.author.info }}</div>
+          <div>
+            {{ new Date(this.post.createdAt).toLocaleDateString() }}
+          </div>
         </div>
-      </div>
-      <v-btn icon class="edit-icon" v-on:click="showEditPost = true" v-if="isAuthor">
-        <v-icon>mdi-pencil</v-icon>
+        <v-btn
+          icon
+          class="edit-icon"
+          v-on:click="showEditPost = true"
+          v-if="isAuthor"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
 
-      </v-btn>
-
-      <v-btn @click="toggleThreeButton" icon class="edit-icon2">
-        <v-icon>mdi-dots-vertical</v-icon>
-      <v-menu v-model="menu" :close-on-content-click="false" offset-x>
-        <template v-slot:activator="{ on }">
-          <span v-on="on"></span>
-        </template>
-        <v-list>
-        <v-list-item>
-            <v-checkbox
-              v-model="checkboxValue"
-              @change="handleCheckboxChange"
-              label="Option 1"
-              color="#6E0095"
-            ></v-checkbox>
-          </v-list-item>
-          <v-list-item @click="handleClick('Option 2')">
-            <v-list-item-title>Option 1</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-btn>
-      <!-- <v-btn icon class="message-icon" @click="showMessage = true">
+        <v-btn @click="toggleThreeButton" icon class="edit-icon2">
+          <v-icon>mdi-dots-vertical</v-icon>
+          <v-menu v-model="menu" :close-on-content-click="false" offset-x>
+            <template v-slot:activator="{ on }">
+              <span v-on="on"></span>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-checkbox
+                  v-model="checkboxValue"
+                  @change="handleCheckboxChange"
+                  label="Option 1"
+                  color="#6E0095"
+                ></v-checkbox>
+              </v-list-item>
+              <v-list-item @click="handleClick('Option 2')">
+                <v-list-item-title>Option 1</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-btn>
+        <!-- <v-btn icon class="message-icon" @click="showMessage = true">
         <v-icon>mdi-comment</v-icon>
       </v-btn> -->
-    </v-card-subtitle>
-    <v-card-title>
-      <h3>{{ post.title }}</h3>
-    </v-card-title>
-    <div style="margin: 1rem" v-html="markedContent"></div>
-    <v-card-actions>
-      <v-row no-gutters align-self="center">
-        <v-col>
-          <div>
-            <v-btn icon v-on:click="upvote" :color="upvoted && 'primary'">
-              <v-icon>mdi-thumb-up</v-icon>
-            </v-btn>
-            <span>{{ post.upvotes || 0 }}</span>
-            <v-btn icon v-on:click="downvote" :color="downvoted && 'primary'">
-              <v-icon>mdi-thumb-down</v-icon>
-            </v-btn>
-            <span>{{ post.downvotes || 0 }}</span>
-            <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
-            <span>{{ 0 }}</span>
-          </div>
-        </v-col>
-      </v-row>
-    </v-card-actions>
-    <v-expand-transition>
-      <div v-show="showComments[index]">
-        <v-divider></v-divider>
-        <v-card variant="tonal">
-          <div class="comment-section">
-            <h3>Comments</h3>
-            <div v-for="(comment, index) in comments" :key="index" class="comment">
-              <p>
-                <strong>{{ comment.author }}</strong> ({{ comment.timestamp }})
-              </p>
-              <p>{{ comment.content }}</p>
-              <div v-if="!comment.replied">
-                <v-btn small @click="showReplyForm(index)">Reply</v-btn>
-              </div>
-              <div v-if="comment.showReplyForm">
-                <textarea v-model="comment.replyContent"></textarea>
-                <v-btn small @click="addReply(index)">Submit Reply</v-btn>
-              </div>
-              <div v-if="comment.replied">
+      </v-card-subtitle>
+      <v-card-title>
+        <h3>{{ post.title }}</h3>
+      </v-card-title>
+      <div style="margin: 1rem" v-html="markedContent"></div>
+      <v-card-actions>
+        <v-row no-gutters align-self="center">
+          <v-col>
+            <div>
+              <v-btn icon v-on:click="upvote" :color="upvoted && 'primary'">
+                <v-icon>mdi-thumb-up</v-icon>
+              </v-btn>
+              <span>{{ post.upvotes || 0 }}</span>
+              <v-btn icon v-on:click="downvote" :color="downvoted && 'primary'">
+                <v-icon>mdi-thumb-down</v-icon>
+              </v-btn>
+              <span>{{ post.downvotes || 0 }}</span>
+              <v-icon @click="toggleComments(index)">mdi-comment</v-icon>
+              <span>{{ 0 }}</span>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+      <v-expand-transition>
+        <div v-show="showComments[index]">
+          <v-divider></v-divider>
+          <v-card variant="tonal">
+            <div class="comment-section">
+              <h3>Comments</h3>
+              <div
+                v-for="(comment, index) in comments"
+                :key="index"
+                class="comment"
+              >
                 <p>
-                  <strong>{{ comment.replyAuthor }}</strong> ({{
-                    comment.replyTimestamp
-                  }}) - Reply:
+                  <strong>{{ comment.author }}</strong> ({{
+                    comment.timestamp
+                  }})
                 </p>
-                <p>{{ comment.replyContent }}</p>
+                <p>{{ comment.content }}</p>
+                <div v-if="!comment.replied">
+                  <v-btn small @click="showReplyForm(index)">Reply</v-btn>
+                </div>
+                <div v-if="comment.showReplyForm">
+                  <textarea v-model="comment.replyContent"></textarea>
+                  <v-btn small @click="addReply(index)">Submit Reply</v-btn>
+                </div>
+                <div v-if="comment.replied">
+                  <p>
+                    <strong>{{ comment.replyAuthor }}</strong> ({{
+                      comment.replyTimestamp
+                    }}) - Reply:
+                  </p>
+                  <p>{{ comment.replyContent }}</p>
+                </div>
+              </div>
+              <div class="new-comment">
+                <h4>Add a comment</h4>
+                <textarea v-model="newComment.content"></textarea>
+                <v-btn @click="addComment">Add Comment</v-btn>
               </div>
             </div>
-            <div class="new-comment">
-              <h4>Add a comment</h4>
-              <textarea v-model="newComment.content"></textarea>
-              <v-btn @click="addComment">Add Comment</v-btn>
-            </div>
-          </div>
-        </v-card>
-      </div>
-    </v-expand-transition>
-    <!-- <v-dialog
+          </v-card>
+        </div>
+      </v-expand-transition>
+      <!-- <v-dialog
       v-model="showMessage"
       max-width="1280"
       style="
@@ -116,38 +126,56 @@
       </div>
     </v-dialog> -->
 
-    <v-dialog v-model="showEditPost" max-width="1280" style="
-        border-radius: 10px;
-        background: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      ">
-      <div class="edit-post-info">
-        <h2 class="heading">Edit Post</h2>
-        <div class="tags-container">
-          <h3 class="tags-heading">Choose Relevant Tags:</h3>
-          <Tags class="tags" />
+      <v-dialog
+        v-model="showEditPost"
+        max-width="1280"
+        style="
+          border-radius: 10px;
+          background: white;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <div class="edit-post-info">
+          <h2 class="heading">Edit Post</h2>
+          <div class="tags-container">
+            <h3 class="tags-heading">Choose Relevant Tags:</h3>
+            <Tags class="tags" />
+          </div>
+          <v-text-field
+            style="width: 95%"
+            label="Enter Post Title"
+            v-model="post.title"
+            outlined
+            dense
+          ></v-text-field>
         </div>
-        <v-text-field style="width: 95%" label="Enter Post Title" v-model="post.title" outlined dense></v-text-field>
-      </div>
-      <div style="background-color: white" class="createpost">
-        <Editor class="editor" :bodyContent="post.body" />
+        <div style="background-color: white" class="createpost">
+          <Editor class="editor" :bodyContent="post.body" />
 
-        <div class="interact">
-          <router-link target="_blank" :to="{
-            path: '/post/edit',
-            query: {
-              title: post.title,
-              content: post.body,
-            },
-          }">
-            <v-btn color="#E8D3FF">Open In External Editor</v-btn>
-          </router-link>
-          <v-btn color="#E8D3FF" style="margin-left: 10px" @click="handleEditPost">Post</v-btn>
+          <div class="interact">
+            <router-link
+              target="_blank"
+              :to="{
+                path: '/post/edit',
+                query: {
+                  title: post.title,
+                  content: post.body,
+                },
+              }"
+            >
+              <v-btn color="#E8D3FF">Open In External Editor</v-btn>
+            </router-link>
+            <v-btn
+              color="#E8D3FF"
+              style="margin-left: 10px"
+              @click="handleEditPost"
+              >Post</v-btn
+            >
+          </div>
         </div>
-      </div>
-    </v-dialog>
-  </v-card>
-  <!-- </v-col>
+      </v-dialog>
+    </v-card>
+    <!-- </v-col>
     </v-row>
   </v-container> -->
   </div>
@@ -269,7 +297,7 @@ export default {
     viewPost() {
       this.dialog = true;
     },
-    editPost() { },
+    editPost() {},
     displaycomments() {
       return CommentsCardVue;
     },
@@ -349,14 +377,17 @@ export default {
     },
   },
   created() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    // if (user) {
+    //   this.isAuthor = user._id === this.post.author._id;
+    // }
+    console.log("user", user);
+    console.log("post data", this.post);
+    console.log("is author", this.isAuthor);
     const md = new MarkdownIt();
     const data = md.render(this.post.content);
     this.markedContent = data;
     this.post["date"] = new Date(this.post.createdAt).toLocaleDateString();
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      this.isAuthor = user._id === this.post.author._id;
-    }
   },
 };
 </script>
@@ -481,7 +512,7 @@ textarea {
   color: #333;
 }
 
-.comment>p:first-child {
+.comment > p:first-child {
   color: #3c3c3c;
   margin-bottom: 0.5em;
 }
