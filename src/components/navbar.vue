@@ -6,7 +6,7 @@
     scroll-behavior="collapse elevate"
     scroll-threshold="419"
   >
-    <v-toolbar-title>AQS</v-toolbar-title>
+    <v-toolbar-title>ASQ</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu v-if="!$vuetify.breakpoint.mdAndUp" offset-y>
       <template v-slot:activator="{ on }">
