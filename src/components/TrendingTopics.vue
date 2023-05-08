@@ -1,19 +1,60 @@
 <template>
-  <div class="trending-topics">
-    <h2>Trending Topics</h2>
-    <ul>
-      <li v-for="(topic, index) in topics" :key="index">{{ topic }}</li>
-    </ul>
-  </div>
+  <v-container>
+    <v-row class="text-center mb-4">
+      <v-col >
+        
+      </v-col>
+    </v-row>
+    <v-row >
+      <v-col cols="12" sm="10" md="8" lg="10" xl="40" class="mx-auto">
+        <v-card
+          v-for="(topic, index) in trendingTopics"
+          :key="index"
+          class="mb-4"
+        >
+          <v-img
+            :src="topic.image"
+            aspect-ratio=""
+            class="grey lighten-2"
+            contain
+
+          ></v-img>
+          <v-card-title>{{ topic.title }}</v-card-title>
+          <v-card-subtitle>{{ topic.subtitle }}</v-card-subtitle>
+          <v-card-actions>
+            <v-btn text color="#6E0095" @click="goToTopic(topic)">Read More</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
+
 
 <script>
 export default {
   name: "TrendingTopicsVue",
   data() {
     return {
-      topics: [],
+      trendingTopics: [
+        // Add your trending topics here
+        {
+          title: "Russia at war",
+          subtitle: "NATO's resistance",
+          image: "https://qph.cf2.quoracdn.net/main-qimg-e6a96348a094cb2276e6a3203dea5c63",
+        },
+
+        // ...
+      ],
     };
+  },
+
+  methods: {
+    goToTopic(topic) {
+      // Implement your navigation logic here
+      console.log("Navigating to:", topic.title);
+    },
   },
   mounted() {
     // fetch the trending topics and set the data
