@@ -13,14 +13,32 @@
           {{ new Date(this.post.createdAt).toLocaleDateString() }}
         </div>
       </div>
-      <v-btn
-        icon
-        class="edit-icon"
-        v-on:click="showEditPost = true"
-        v-if="isAuthor"
-      >
+      <v-btn icon class="edit-icon" v-on:click="showEditPost = true" v-if="isAuthor">
         <v-icon>mdi-pencil</v-icon>
+
       </v-btn>
+
+      <v-btn @click="toggleThreeButton" icon class="edit-icon2">
+        <v-icon>mdi-dots-vertical</v-icon>
+      <v-menu v-model="menu" :close-on-content-click="false" offset-x>
+        <template v-slot:activator="{ on }">
+          <span v-on="on"></span>
+        </template>
+        <v-list>
+        <v-list-item>
+            <v-checkbox
+              v-model="checkboxValue"
+              @change="handleCheckboxChange"
+              label="Option 1"
+              color="#6E0095"
+            ></v-checkbox>
+          </v-list-item>
+          <v-list-item @click="handleClick('Option 2')">
+            <v-list-item-title>Option 1</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-btn>
       <!-- <v-btn icon class="message-icon" @click="showMessage = true">
         <v-icon>mdi-comment</v-icon>
       </v-btn> -->
@@ -53,11 +71,7 @@
         <v-card variant="tonal">
           <div class="comment-section">
             <h3>Comments</h3>
-            <div
-              v-for="(comment, index) in comments"
-              :key="index"
-              class="comment"
-            >
+            <div v-for="(comment, index) in comments" :key="index" class="comment">
               <p>
                 <strong>{{ comment.author }}</strong> ({{ comment.timestamp }})
               </p>
@@ -101,51 +115,33 @@
       </div>
     </v-dialog> -->
 
-    <v-dialog
-      v-model="showEditPost"
-      max-width="1280"
-      style="
+    <v-dialog v-model="showEditPost" max-width="1280" style="
         border-radius: 10px;
         background: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      "
-    >
+      ">
       <div class="edit-post-info">
         <h2 class="heading">Edit Post</h2>
         <div class="tags-container">
           <h3 class="tags-heading">Choose Relevant Tags:</h3>
           <Tags class="tags" />
         </div>
-        <v-text-field
-          style="width: 95%"
-          label="Enter Post Title"
-          v-model="post.title"
-          outlined
-          dense
-        ></v-text-field>
+        <v-text-field style="width: 95%" label="Enter Post Title" v-model="post.title" outlined dense></v-text-field>
       </div>
       <div style="background-color: white" class="createpost">
         <Editor class="editor" :bodyContent="post.body" />
 
         <div class="interact">
-          <router-link
-            target="_blank"
-            :to="{
-              path: '/post/edit',
-              query: {
-                title: post.title,
-                content: post.body,
-              },
-            }"
-          >
+          <router-link target="_blank" :to="{
+            path: '/post/edit',
+            query: {
+              title: post.title,
+              content: post.body,
+            },
+          }">
             <v-btn color="#E8D3FF">Open In External Editor</v-btn>
           </router-link>
-          <v-btn
-            color="#E8D3FF"
-            style="margin-left: 10px"
-            @click="handleEditPost"
-            >Post</v-btn
-          >
+          <v-btn color="#E8D3FF" style="margin-left: 10px" @click="handleEditPost">Post</v-btn>
         </div>
       </div>
     </v-dialog>
@@ -166,6 +162,8 @@ import markdownIt from "markdown-it";
 export default {
   data() {
     return {
+      menu: false,
+      checkboxValue: false,
       isAuthor: false,
       showComments: [],
       comments: [],
@@ -270,9 +268,19 @@ export default {
     viewPost() {
       this.dialog = true;
     },
-    editPost() {},
+    editPost() { },
     displaycomments() {
       return CommentsCardVue;
+    },
+    toggleThreeButton() {
+      this.menu = !this.menu;
+    },
+    handleCheckboxChange() {
+      console.log(`Checkbox value: ${this.checkboxValue}`);
+    },
+    handleClick(option) {
+      console.log(`Clicked: ${option}`);
+      this.menu = false;
     },
     addComment() {
       this.comments.push({
@@ -359,6 +367,14 @@ export default {
   right: 15px;
   cursor: pointer;
 }
+
+.edit-icon2 {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
 .message-icon {
   position: absolute;
   top: 15px;
@@ -377,6 +393,7 @@ export default {
   margin-left: 20px;
   color: rgb(0, 0, 0);
 }
+
 .edit-post-info {
   display: flex;
   flex-direction: column;
@@ -396,6 +413,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 createpost {
   width: 100%;
   height: 100%;
@@ -419,6 +437,7 @@ createpost {
   justify-content: center;
   margin-bottom: 15px;
 }
+
 .close {
   margin-bottom: 5px;
   width: 5%;
@@ -461,7 +480,7 @@ textarea {
   color: #333;
 }
 
-.comment > p:first-child {
+.comment>p:first-child {
   color: #3c3c3c;
   margin-bottom: 0.5em;
 }
