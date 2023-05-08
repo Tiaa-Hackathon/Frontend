@@ -26,7 +26,7 @@
     </v-menu>
     <v-btn v-if="$vuetify.breakpoint.mdAndUp" text @click="navigate('/')"
       >Home</v-btn>
-    <v-btn v-if="isLoggedIn" text @click="navigate('message')">Message</v-btn>
+    <!-- <v-btn v-if="isLoggedIn" text @click="navigate('message')">Message</v-btn> -->
     <v-btn
       v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
       text
@@ -41,6 +41,8 @@
       @click="navigate('/login')"
       >Login</v-btn
     >
+    <v-btn text @click="navigate('/view/analytics')">View Analytics</v-btn>
+    <v-btn text @click="navigate('/reported/posts')">Flagged</v-btn>
     <v-btn
       v-on:click="login"
       v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
@@ -52,6 +54,8 @@
 </template>
 
 <script>
+// import ViewAnalytics from '@/views/ViewAnalytics.vue';
+
 export default {
   data() {
     return {
@@ -60,7 +64,8 @@ export default {
         { title: "Profile", route: "/user/profile" },
         { title: "Login", route: "/login" },
         {title: "Message", route: "/message"},
-        {title: "ViewAnalytics", route: "/view/analytics"}
+        {title: "ViewAnalytics", route: "/view/analytics"},
+        {title: ""}
       ],
     };
   },

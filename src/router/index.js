@@ -47,7 +47,11 @@ const routes = [
     name: "ViewAnalytics",
     component: () => import("../views/ViewAnalytics.vue"),
   },
-  
+  {
+    path: "/reported/posts",
+    name: "reported/posts",
+    component: () => import("../views/ReportedPosts.vue")
+  },
   {
     path: "/*",
     name: "error",
