@@ -78,7 +78,8 @@
 
 
 export default {
-  props: {
+
+/*  props: {
     userId: {
       type: String,
       required: true,
@@ -116,6 +117,18 @@ export default {
       default: 0
     }
   },
+*/
+  data(){
+    return{
+      userId: "username",
+      userBio: "lorem ipsum",
+      useremail: "tiaa@gmail.org",
+      userImg: "https://i.genius.com/097177ea52f6ad0147914b68157107a588f47fb2?url=http%3A%2F%2Fwww.mushrecords.com%2Falbum_art_front%2FMH202_D.jpg",
+      userPosts: "0",
+      userUpvotes: "0",
+      userDownvotes: "0"
+    }
+  }
 };
 </script>
 

@@ -6,7 +6,7 @@
     scroll-behavior="collapse elevate"
     scroll-threshold="419"
   >
-    <v-toolbar-title> Quora Clone </v-toolbar-title>
+    <v-toolbar-title>AQS</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu v-if="!$vuetify.breakpoint.mdAndUp" offset-y>
       <template v-slot:activator="{ on }">
@@ -33,6 +33,7 @@
       @click="navigate('/user/profile')"
       >Profile</v-btn
     >
+    <!-- <v-btn v-if="isMod" text @click="navigate()">Review Analytics</v-btn> -->
     <v-btn
       v-on:click="login"
       v-if="!isLoggedIn && $vuetify.breakpoint.mdAndUp"
@@ -58,7 +59,8 @@ export default {
         { title: "Home", route: "/" },
         { title: "Profile", route: "/user/profile" },
         { title: "Login", route: "/login" },
-        {title: "Message", route: "/message"}
+        {title: "Message", route: "/message"},
+        {title: "ViewAnalytics", route: "/view/analytics"}
       ],
     };
   },
@@ -84,6 +86,10 @@ export default {
       const token = localStorage.getItem("token");
       return token ? true : false;
     },
+    isMod(){
+      const user = JSON.parse(localStorage.getItem("user"))
+      return user.isModerator;
+    }
   },
   created() {
     const token = localStorage.getItem("token");
