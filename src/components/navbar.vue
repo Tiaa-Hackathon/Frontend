@@ -42,8 +42,12 @@
       @click="navigate('/login')"
       >Login</v-btn
     >
-    <v-btn text @click="navigate('/view/analytics')">View Analytics</v-btn>
-    <v-btn text @click="navigate('/reported/posts')">Flagged</v-btn>
+    <v-btn text @click="navigate('/view/analytics')" v-if="isMod"
+      >View Analytics</v-btn
+    >
+    <v-btn text @click="navigate('/reported/posts')" v-if="isMod"
+      >Flagged</v-btn
+    >
     <v-btn
       v-on:click="login"
       v-if="isLoggedIn && $vuetify.breakpoint.mdAndUp"
@@ -94,10 +98,14 @@ export default {
     },
     isMod() {
       const user = JSON.parse(localStorage.getItem("user"));
-      return user.isModerator;
+      // if (user) {
+      //   user.isModerator
+      // }
+      // return false;
+      return user.isModerator ? user.isModerator : false;
     },
   },
-  created() {
+  mounted() {
     const token = localStorage.getItem("token");
     if (token) {
       this.$store.state.auth.user.loggedIn = true;
@@ -107,5 +115,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

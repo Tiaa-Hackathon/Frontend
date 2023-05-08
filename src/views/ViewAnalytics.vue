@@ -26,15 +26,47 @@
 </template>
 
 <script>
-export default{
-  data(){
-    return{
+export default {
+  data() {
+    return {
       userRegs: 0,
       numPosts: 0,
-      flagInap: 0
+      flagInap: 0,
+    };
+  },
+  async created() {
+    const response = await this.getAnalytics();
+    if (response.ok) {
+      const { data } = await response.json();
+      this.userRegs = data.userAnalytics;
+      this.numPosts = data.postAnalytics;
+      this.flagInap = data.postActivity;
+    } else {
+      alert("Some error occured");
     }
-  }
-}
+  },
+  methods: {
+    async getAnalytics() {
+      const url = process.env.VUE_APP_BACKEND_URL + "/analytics";
+
+      const headers = new Headers();
+      headers.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+      console.log("reched here");
+
+      const requestOptions = {
+        method: "GET",
+        headers: headers,
+        redirect: "follow",
+      };
+
+      const response = await fetch(url, requestOptions);
+      return response;
+    },
+  },
+};
 </script>
 
 <style>
@@ -53,7 +85,7 @@ export default{
 .metric-box {
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   padding: 20px;
   margin: 20px;
