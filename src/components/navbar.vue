@@ -64,8 +64,8 @@ export default {
         { title: "Profile", route: "/user/profile" },
         { title: "Login", route: "/login" },
         {title: "Message", route: "/message"},
-        {title: "ViewAnalytics", route: "/view/analytics"},
-        {title: ""}
+        {title: "View Analytics", route: "/view/analytics"},
+        {title: "Flagged posts", route: "/reported/posts"}
       ],
     };
   },
